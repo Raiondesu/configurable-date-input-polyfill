@@ -284,12 +284,12 @@ class Picker {
     }
 
     createMatrixHeader() {
-        if (this.locale === this.input.locale
+        if (this.locale === this.input.localeLabels
             && this.firstDayOfWeek === this.input.firstDayOfWeek) {
             return false;
         }
 
-        this.locale = this.input.locale;
+        this.locale = this.input.localeLabels;
         this.firstDayOfWeek = this.input.firstDayOfWeek;
 
         const daysHeaderContent = [];
