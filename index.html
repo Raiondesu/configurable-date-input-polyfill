@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Polyfill Datepicker Demo</title>
@@ -14,17 +13,14 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
             background-color: #a2d8f6;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 15px;
         }
 
         input {
-            min-width: 125px;
-            max-width: 100%;
-        }
-
-        .col-12 {
-            margin-top: 15px;
+            width: 100%;
         }
 
         h1 {
@@ -34,45 +30,37 @@
             text-shadow: 2px 2px 2px #000000;
             color: white;
             word-wrap: Break-Word;
-            margin: 30px 0 30px 0;
         }
 
         h2 {
+            font-size: 26px;
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .subheadline {
-            font-size: 26px;
-        }
-
-        .example-container,
-        .info-container {
-            width: 100%;
+        .example-container {
             height: 100%;
             background-color: white;
             border: solid 2px black;
-            padding: 30px 15px;
-            box-sizing: border-box;
+            padding: 30px;
         }
 
-        .info-container {
-            background-color: transparent;
-            height: auto;
-            width: auto;
-            border: 0px;
-            padding: 0px;
-            margin: 20px;
+        .col {
+            margin-bottom: 30px;
+        }
+        
+        .example-row {
+            margin-bottom: 10px;
         }
 
         .button {
             min-width: 325px;
             min-height: 90px;
+            border: solid 1px black;
             font-size: 60px;
             text-align: center;
             line-height: 75px;
             font-weight: bolder;
-            border: solid 1px black;
         }
 
         .download {
@@ -86,29 +74,26 @@
             color: #ffffff;
         }
 
+        .information p {
+            margin: 0;
+        }
+
         .back {
             background-color: transparent;
             border: 0px;
+            padding: 0;
             color: #ffffff;
             font-size: 18px;
             margin-bottom: 30px;
-        }
-
-        .example-input {
-            text-align: center;
-        }
-
-        .example-row {
-            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body class="container-fluid">
     <h1>Configurable Date-Input-Polyfill DEMO</h1>
-    <h2 class="subheadline">The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs.</h2>
+    <h2>The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs.</h2>
     <div class="row">
-        <div class="col-12 col-md-6 col-xl-4">
+        <div class="col col-12 col-md-6 col-xl-4">
             <div class="example-container">
                 <h2>Example Date-Input configuration</h2>
                 <div class="row example-row">
@@ -188,7 +173,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-xl-4">
+        <div class="col col-12 col-md-6 col-xl-4">
             <div class="example-container">
                 <h2>Example Inputs with class configuration</h2>
                 <div class="row example-row">
@@ -271,7 +256,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-12 col-xl-4">
+        <div class="col col-12 col-md-12 col-xl-4">
             <div class="example-container">
                 <h2>Fancy dynamic example</h2>
                 <div class="row example-row">
@@ -297,20 +282,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6 col-xl-4 text-center">
-            <button class="info-container download button"
+        <div class="col col-12 col-md-6 col-xl-4 text-center">
+            <button class="button download"
                 onclick="window.open('https://github.com/KreutzerCode/configurable-date-input-polyfill/archive/master.zip','_blank')">
                 Download
             </button>
         </div>
-        <div class="col-12 col-md-6 col-xl-4 text-center">
-            <button class="info-container npm button"
+        <div class="col col-12 col-md-6 col-xl-4 text-center">
+            <button class="button npm"
                 onclick="window.open('https://www.npmjs.com/package/configurable-date-input-polyfill','_blank')">
                 NPM
             </button>
         </div>
-        <div class="col-12 col-md-12 col-xl-4">
-            <div class="info-container">
+        <div class="col col-12 col-md-12 col-xl-4">
+            <div class="information">
                 <p>
                     Note that some examples are replaced in modern browsers like Chrome and Firefox by an integrated
                     datepicker.
@@ -329,5 +314,4 @@
     </div>
     <script src="./configurable-date-input-polyfill.dist.js"></script>
 </body>
-
 </html>
