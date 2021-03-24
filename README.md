@@ -1,4 +1,12 @@
-# configurable-date-input-polyfill
+<div align="center">
+    <h1>configurable-date-input-polyfill</h1>
+    <h3>
+        The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
+    </h3>
+    <br>
+    <img src="favicons/preview.png">
+    <br>
+    <br>
 
 [![Build Status](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill.svg?branch=master)](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill)
 [![Monthly downloads](https://img.shields.io/npm/dm/configurable-date-input-polyfill.svg)](https://www.npmjs.com/package/configurable-date-input-polyfill)
@@ -6,14 +14,15 @@
 [![Dependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill)
 [![DevDependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/dev-status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill?type=dev)
 
-The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
-
 Just include this simple script and IE, Firefox, and OS X Safari will support `<input type="date">`, without any dependencies, not even jQuery!
 
 Forked from [date-input-polyfill](https://github.com/jcgertig/date-input-polyfill). Continuing as a separate project.
 
 
 [VIEW DEMO HERE](https://kreutzercode.github.io/configurable-date-input-polyfill/)
+
+</div>
+
 
 ## Features
 
@@ -115,12 +124,18 @@ include it anywhere in your HTML.
 * iOS Safari 7+
 * Samsung Internet 11+
 
+<br />
 
 ## Contributing
 
-### Build
-Run `npm run build` to edit the Project
+Feel free to contribute. Whether it's a feature request or a pull request, any kind of contribution is welcome.
+
+### Development
+* To start modifying the project you have to run `npm install` inside the package folder.
+* After you have modified the project files, you have to run `npm run build` to apply your changes.
+* Its recommendet to use `npm run watch` while making larger modifications.
 
 ### Production
-Run `npm run production` to do an optimization and minification to the final Project
+* When your modifications are ready for use in production, you have to run `npm run production`.
+* After that, the modified package is ready for use.
 
