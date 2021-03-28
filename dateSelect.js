@@ -92,6 +92,9 @@ export class YearSelect extends DateSelect {
             // update array order
             this.yearArray.pop();
             this.yearArray.unshift(this.yearArray[0] - 1);
+            if (this.yearArray[0] < 0) {
+                this.yearArray[0] = '';
+            }
 
             for (let i = 0; i < 5; i += 1) {
                 activeButton.target.nextElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
@@ -106,7 +109,11 @@ export class YearSelect extends DateSelect {
         // create siblings
         targetYear -= 2;
         for (let i = 0; i < 5; i += 1) {
-            this.yearArray.push(targetYear);
+            if (targetYear < 0) {
+                this.yearArray.push('');
+            } else {
+                this.yearArray.push(targetYear);
+            }
             targetYear += 1;
         }
 
