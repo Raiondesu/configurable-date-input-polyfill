@@ -61,13 +61,12 @@ export class YearSelect extends DateSelect {
     constructor() {
         super();
         this.dateSelectWrapper.className = 'select-wrapper year-select';
-        this.yearArray = this.createYearRangeArray(1800, 2200);
+        this.yearArray = [];
 
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
             const option = document.createElement('div');
             option.className = `option option-${i}`;
-            option.innerHTML = this.yearArray[i];
 
             this.optionWrapper.appendChild(option);
         }
@@ -76,18 +75,23 @@ export class YearSelect extends DateSelect {
         this.toggleDown.addEventListener('click', (buttonObject) => {
             const activeButton = buttonObject;
             // update array order
-            this.yearArray.push(this.yearArray.shift());
+            this.yearArray.shift();
+            this.yearArray.push(this.yearArray[this.yearArray.length - 1] + 1);
 
             for (let i = 0; i < 5; i += 1) {
-                activeButton.target.previousElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
+              activeButton.target.previousElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
             }
         });
 
         /* upClick Function */
         this.toggleUp.addEventListener('click', (buttonObject) => {
             const activeButton = buttonObject;
+            if (this.yearArray[2] === 0) {
+                return;
+            }
             // update array order
-            this.yearArray.unshift(this.yearArray.pop());
+            this.yearArray.pop();
+            this.yearArray.unshift(this.yearArray[0] - 1);
 
             for (let i = 0; i < 5; i += 1) {
                 activeButton.target.nextElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
@@ -96,49 +100,23 @@ export class YearSelect extends DateSelect {
     }
 
     toggleByInput(value) {
-        let givenInputValue = value;
-        // in case input is out of range
-        if (givenInputValue > Math.max(...this.yearArray)) {
-            givenInputValue = Math.max(...this.yearArray);
+        let targetYear = value;
+        // clear current values
+        this.yearArray.length = 0;
+        // create siblings
+        targetYear -= 2;
+        for (let i = 0; i < 5; i += 1) {
+            this.yearArray.push(targetYear);
+            targetYear += 1;
         }
 
-        if (givenInputValue !== this.yearArray[2]
-            && givenInputValue >= Math.min(...this.yearArray)) {
-            const targetRotateCount = this.calculateDateOffset(this.yearArray, givenInputValue);
-            this.yearArray = this.rotate(this.yearArray, targetRotateCount);
-
-            for (let i = 0; i < 5; i += 1) {
-                this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
-            }
+        for (let i = 0; i < 5; i += 1) {
+            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
         }
     }
 
     returnSelectedYear() {
         return this.yearArray[2];
-    }
-
-    returnOptionArray() {
-        return this.yearArray;
-    }
-
-    createYearRangeArray(minYear, maxYear) {
-        const yearRangeArray = [];
-        const min = parseInt(minYear);
-        const max = parseInt(maxYear);
-
-        for (let i = min; i <= max; i += 1) {
-            yearRangeArray.push(i);
-        }
-
-        if (yearRangeArray.length < 5) {
-            const missingItems = 5 - yearRangeArray.length;
-
-            for (let k = 0; k < missingItems; k += 1) {
-                yearRangeArray.push(yearRangeArray[k]);
-            }
-        }
-
-        return yearRangeArray;
     }
 }
 
@@ -242,9 +220,5 @@ export class MonthSelect extends DateSelect {
 
     returnSelectedMonth() {
         return this.monthArray[2];
-    }
-
-    returnOptionArray() {
-        return this.monthArray;
     }
 }
