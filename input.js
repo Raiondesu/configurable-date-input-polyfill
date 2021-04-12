@@ -20,47 +20,36 @@ class Input {
 
     // determines if min and max values are given
     getDateRange(minAttribute, maxAttribute) {
-        const minDateMark = new Date("1800");
-        const maxDateMark = new Date("2200");
+        const defaultMinDate = new Date("1800");
+        const defaultMaxDate = new Date("3000");
 
-        const dateRange = [];
+        let minDate = defaultMinDate;
+        let maxDate = defaultMaxDate;
 
-        let minDate;
-        let maxDate;
-
-        // If attribute exisits
+        // If min Attribute is set
         if (minAttribute) {
             const givenDate = new Date(minAttribute);
             givenDate.setHours(0, 0, 0, 0);
-            if (givenDate >= minDateMark && givenDate < maxDateMark) {
-                minDate = givenDate;
-            }
+            minDate = givenDate;
         }
-
-        // If attribute exisits
+        // If max Attribute is set
         if (maxAttribute) {
             const givenDate = new Date(maxAttribute);
             givenDate.setHours(0, 0, 0, 0);
-            if (givenDate > minDateMark && givenDate <= maxDateMark) {
-                maxDate = givenDate;
-            }
-        }
-        // Check if minDate is set
-        if (!minDate) {
-            minDate = minDateMark;
-        }
-        // Check if maxDate is set
-        if (!maxDate) {
-            maxDate = maxDateMark;
-        }
-        // Check if there are in correct order
-        if (minDate < maxDate) {
-            dateRange.push(minDate, maxDate);
-        } else {
-            dateRange.push(minDateMark, maxDateMark);
+            maxDate = givenDate;
         }
 
-        return dateRange;
+        // in case of invalid input
+        if (minDate > maxDate) {
+            minDate = defaultMinDate;
+            maxDate = defaultMaxDate;
+        }
+
+        if (minDate < new Date("0001")) {
+            minDate = new Date("0001");
+        }
+
+        return [minDate, maxDate];
     }
 
     // Return false if the browser does not support input[type="date"].
@@ -118,7 +107,14 @@ class Input {
                             i += 1;
                         });
 
-                        return new Date(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
+                        // create absolute date of given input
+                        const valueAsDate = new Date();
+                        valueAsDate.setFullYear(parts[fmt.yyyy]);
+                        valueAsDate.setMonth(parts[fmt.mm] - 1);
+                        valueAsDate.setDate(parts[fmt.dd]);
+                        valueAsDate.setHours(0, 0, 0, 0);
+
+                        return valueAsDate;
                     },
                     set: (val) => {
                         inputObject.value = DateFormat(val, dateFormat);

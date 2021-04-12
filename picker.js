@@ -115,7 +115,7 @@ class Picker {
             // Updates if jump is detected
             if (jumpMonth) {
                 this.date.setMonth(this.monthSelect.returnSelectedMonth());
-                this.date.setYear(this.yearSelect.returnSelectedYear());
+                this.date.setFullYear(this.yearSelect.returnSelectedYear());
                 this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
             }
 
@@ -224,7 +224,7 @@ class Picker {
     syncPickerWithInput() {
         // fixes bug where an empty calendar appears if year is missing from keyboard input
         if (!isNaN(Date.parse(this.input.valueAsDate))) {
-            this.date = Picker.absoluteDate(this.input.valueAsDate);
+            this.date = this.input.valueAsDate;
         } else {
             this.date = new Date();
         }
@@ -318,14 +318,10 @@ class Picker {
         const year = this.date.getFullYear(); // Get the year (2016).
         const month = this.date.getMonth(); // Get the month number (0-11).
         const oldDaysInCurrentMonth = [];
-
-        let startDay = new Date(year, month, 1).getDay(); // First weekday of month (0-6).
-        const maxDays = new Date(
-            this.date.getFullYear(),
-            month + 1,
-            0,
-        ).getDate(); // Get days in month (1-31).
-
+        // First weekday of month (0-6).
+        let startDay = this.returnAbsoluteDate(year, month, 1).getDay();
+        // Get days in month (1-31).
+        const maxDays = this.returnAbsoluteDate(year, month + 1, 0).getDate();
         // check if first day of week is monday
         if (this.input.firstDayOfWeek === 'mo') {
             // update startDay to EU format -> start at mo
@@ -347,7 +343,7 @@ class Picker {
 
         // adds days of the last month if this month dont start at 0
         if (startDay > 0) {
-            const daysOfLastMonth = new Date(year, month, 0).getDate(); // Get days in month (1-31).
+            const daysOfLastMonth = this.returnAbsoluteDate(year, month, 0).getDate();
 
             const daysToCollect = startDay;
             let dayPosition = daysToCollect - 1;
@@ -359,7 +355,7 @@ class Picker {
         }
 
         // The input's current date.
-        const selDate = Picker.absoluteDate(this.input.valueAsDate) || false;
+        const selDate = this.input.valueAsDate || false;
 
         // Are we in the input's currently-selected month and year?
         const selMatrix = selDate
@@ -390,15 +386,18 @@ class Picker {
             // Add new column.
             // If no days from this month in this column, it will be empty.
             if (i + 1 <= startDay) {
-                const calculatedPrevMonthDate = new Date(year, month - 1, oldDaysInCurrentMonth[i]);
+                const calculatedPrevMonthDate = this.returnAbsoluteDate(
+                    year, month - 1, oldDaysInCurrentMonth[i],
+                    );
 
-                matrixHTML.push(`<td class="prev-month
-                    ${calculatedPrevMonthDate < minDate || calculatedPrevMonthDate > maxDate ? `disabled` : ``}">${oldDaysInCurrentMonth[i]}</td>`);
+                matrixHTML.push(`<td class="prev-month 
+                    ${calculatedPrevMonthDate < minDate || calculatedPrevMonthDate > maxDate ? `disabled` : ``}">
+                    ${oldDaysInCurrentMonth[i]}</td>`);
             } else {
                 // Populate day number.
                 const dayNum = i + 1 - startDay;
                 const selected = selMatrix && selDate.getDate() === dayNum;
-                const calculatedCurrentDate = new Date(year, month, dayNum);
+                const calculatedCurrentDate = this.returnAbsoluteDate(year, month, dayNum);
 
                 // check if current item is current day
                 if (lookingAtCurrentMonth && today.getDate() === dayNum) {
@@ -422,7 +421,7 @@ class Picker {
 
         // fill remaining space with next Month items
         if (currentDisplayedDays < maxDayTiles) {
-            const calculatedNextMonthDate = new Date(year, month + 2, 0);
+            const calculatedNextMonthDate = this.returnAbsoluteDate(year, month + 2, 0);
             let nextMonthDayItemLabel = 1;
             while (currentDisplayedDays < maxDayTiles) {
                 calculatedNextMonthDate.setDate(nextMonthDayItemLabel);
@@ -447,8 +446,14 @@ class Picker {
         return this.date;
     }
 
-    static absoluteDate(date) {
-        return date && new Date(date.getTime());
+    returnAbsoluteDate(year, month, day) {
+        const absoluteDate = new Date();
+        absoluteDate.setFullYear(year);
+        absoluteDate.setMonth(month);
+        absoluteDate.setDate(day);
+        absoluteDate.setHours(0, 0, 0, 0);
+
+        return absoluteDate;
     }
 }
 
