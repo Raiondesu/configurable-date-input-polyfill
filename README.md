@@ -1,12 +1,5 @@
 <div align="center">
     <h1>configurable-date-input-polyfill</h1>
-    <h3>
-        The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
-    </h3>
-    <br>
-    <img src="favicons/preview.png">
-    <br>
-    <br>
 
 [![Build Status](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill.svg?branch=master)](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill)
 [![Monthly downloads](https://img.shields.io/npm/dm/configurable-date-input-polyfill.svg)](https://www.npmjs.com/package/configurable-date-input-polyfill)
@@ -14,10 +7,13 @@
 [![Dependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill)
 [![DevDependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/dev-status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill?type=dev)
 
+<p>
+    The last date-input polyfill you will ever need. A fancy and lightweight datepicker with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
+</p>
+
 Just include this simple script and IE, Firefox, and OS X Safari will support `<input type="date">`, without any dependencies, not even jQuery!
 
 Forked from [date-input-polyfill](https://github.com/jcgertig/date-input-polyfill). Continuing as a separate project.
-
 
 [VIEW DEMO HERE](https://kreutzercode.github.io/configurable-date-input-polyfill/)
 
@@ -124,7 +120,7 @@ include it anywhere in your HTML.
 * iOS Safari 7+
 * Samsung Internet 11+
 
-<br />
+---
 
 ## Contributing
 
