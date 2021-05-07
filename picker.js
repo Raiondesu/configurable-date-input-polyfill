@@ -448,9 +448,7 @@ class Picker {
 
     returnAbsoluteDate(year, month, day) {
         const absoluteDate = new Date();
-        absoluteDate.setFullYear(year);
-        absoluteDate.setMonth(month);
-        absoluteDate.setDate(day);
+        absoluteDate.setFullYear(year, month, day);
         absoluteDate.setHours(0, 0, 0, 0);
 
         return absoluteDate;

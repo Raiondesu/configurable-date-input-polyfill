@@ -109,9 +109,7 @@ class Input {
 
                         // create absolute date of given input
                         const valueAsDate = new Date();
-                        valueAsDate.setFullYear(parts[fmt.yyyy]);
-                        valueAsDate.setMonth(parts[fmt.mm] - 1);
-                        valueAsDate.setDate(parts[fmt.dd]);
+                        valueAsDate.setFullYear(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
                         valueAsDate.setHours(0, 0, 0, 0);
 
                         return valueAsDate;
