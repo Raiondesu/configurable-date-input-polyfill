@@ -27,13 +27,13 @@ class Input {
         let maxDate = defaultMaxDate;
 
         // If min Attribute is set
-        if (minAttribute) {
+        if (minAttribute && Date.parse(minAttribute)) {
             const givenDate = new Date(minAttribute);
             givenDate.setHours(0, 0, 0, 0);
             minDate = givenDate;
         }
         // If max Attribute is set
-        if (maxAttribute) {
+        if (maxAttribute && Date.parse(maxAttribute)) {
             const givenDate = new Date(maxAttribute);
             givenDate.setHours(0, 0, 0, 0);
             maxDate = givenDate;

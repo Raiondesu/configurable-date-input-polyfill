@@ -391,8 +391,7 @@ class Picker {
                     );
 
                 matrixHTML.push(`<td class="prev-month 
-                    ${calculatedPrevMonthDate < minDate || calculatedPrevMonthDate > maxDate ? `disabled` : ``}">
-                    ${oldDaysInCurrentMonth[i]}</td>`);
+                    ${calculatedPrevMonthDate < minDate || calculatedPrevMonthDate > maxDate ? `disabled` : ``}">${oldDaysInCurrentMonth[i]}</td>`);
             } else {
                 // Populate day number.
                 const dayNum = i + 1 - startDay;
