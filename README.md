@@ -72,7 +72,7 @@ include it anywhere in your HTML.
 * By setting the `min` and `max` attributes you can change the range of available date options. In case you are faced with an input without type date, it is recommended to use `data-min` and `data-max`.
 ```html
 <!--default dont need to be specified-->
-<input type="date" min="1800-01-01" max="2200-01-01"/>
+<input type="date" min="1800-01-01" max="3000-01-01"/>
 
 <!--custom-->
 <input type="date" min="2015-02-15" max="2030-01-01" />
@@ -95,7 +95,7 @@ include it anywhere in your HTML.
 ```
 
 ## First day of the Week (Matrix Formatting)
-* Specify the first day of the Week. With the data-first-day attribute you can change the day starting the week between Saturday, Sunday and Monday.
+* Specify the first day of the week. You can use the data-first-day attribute to change the day the week starts between Saturday, Sunday, and Monday.
 ```html
 <!--default dont need to be specified-->
 <input type="date" data-first-day="su" />
@@ -124,14 +124,14 @@ include it anywhere in your HTML.
 
 ## Contributing
 
-Feel free to contribute. Whether it's a feature request or a pull request, any kind of contribution is welcome.
+Feel free to contribute. Whether it's a feature request or a pull request, any type of contribution is welcome.
 
 ### Development
-* To start modifying the project you have to run `npm install` inside the package folder.
-* After you have modified the project files, you have to run `npm run build` to apply your changes.
-* Its recommendet to use `npm run watch` while making larger modifications.
+* To start modifying the project, you will need to run `npm install` in the package folder.
+* After modifying the project files, you will need to run `npm run build` to apply your changes.
+* It is recommended to use `npm run watch` when making large changes.
 
 ### Production
-* When your modifications are ready for use in production, you have to run `npm run production`.
-* After that, the modified package is ready for use.
+* When your changes are ready to be used in production, you need to run `npm run production`.
+* After that, the modified package is ready for use. Pull Requests of any kind are strongly encouraged!
 
