@@ -222,8 +222,8 @@ class Picker {
 
     // Match picker date with input date.
     syncPickerWithInput() {
-        // fixes bug where an empty calendar appears if year is missing from keyboard input
-        if (!isNaN(Date.parse(this.input.valueAsDate))) {
+        // use selected date incase valid date is given
+        if (this.input.valueAsDate != null) {
             this.date = this.input.valueAsDate;
         } else {
             this.date = new Date();
@@ -240,8 +240,8 @@ class Picker {
             this.selectWrapper.firstChild);
 
         // create new DateRange Object
-        const minRange = new Date(this.input.dateRange[0]);
-        const maxRange = new Date(this.input.dateRange[1]);
+        const minRange = new Date(this.input.dateRange[0].getTime());
+        const maxRange = new Date(this.input.dateRange[1].getTime());
 
         // if current year is in selection range
         if (this.date <= maxRange && this.date >= minRange) {

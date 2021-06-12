@@ -107,10 +107,20 @@ class Input {
                             i += 1;
                         });
 
+                        // return null if no parts found
+                        if (!parts) {
+                            return null;
+                        }
+
                         // create absolute date of given input
                         const valueAsDate = new Date();
                         valueAsDate.setFullYear(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
                         valueAsDate.setHours(0, 0, 0, 0);
+
+                        // return null in case of invalid date
+                        if (isNaN(valueAsDate)) {
+                            return null;
+                        }
 
                         return valueAsDate;
                     },
