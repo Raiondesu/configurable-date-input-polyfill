@@ -114,6 +114,7 @@ class Picker {
 
             // Updates if jump is detected
             if (jumpMonth) {
+                this.date = new Date();
                 this.date.setMonth(this.monthSelect.returnSelectedMonth());
                 this.date.setFullYear(this.yearSelect.returnSelectedYear());
                 this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
