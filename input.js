@@ -48,7 +48,16 @@ export default class Input {
                     set: (val) => {
                         this.element.value = DateFormat(val, this.format);
                         // trigger change event to execute event listeners on the date element
-                        this.element.dispatchEvent(new Event('change', { bubbles: true }));
+                        let event;
+                        // IE event support check
+                        if (typeof (Event) === 'function') {
+                            event = new Event('change', { bubbles: true });
+                        } else {
+                            event = document.createEvent('Event');
+                            event.initEvent('change', true, true);
+                        }
+
+                        this.element.dispatchEvent(event);
                     },
                 },
                 valueAsNumber: {
