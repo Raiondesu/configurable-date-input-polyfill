@@ -412,7 +412,7 @@ const localisations = {
             'Joulukuu',
         ],
         today: 'Tänään',
-        format: 'dd/MM YYYY',
+        format: 'dd/MM/YYYY',
     },
 };
 
