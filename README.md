@@ -46,7 +46,7 @@ Add to your project:
 
 * **Webpack/Browserify:** `require('configurable-date-input-polyfill');`
 
-    or alongside **Babel:** `import 'configurable-date-input-polyfill';`
+* **Babel:** `import 'configurable-date-input-polyfill';`
 
 * **Script Tag:** Copy `configurable-date-input-polyfill.dist.js` from `node_modules` and
 include it anywhere in your HTML.
