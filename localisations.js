@@ -386,6 +386,34 @@ const localisations = {
         today: 'Idag',
         format: 'YYYY-MM-dd',
     },
+    /* Finnish (Finland) */
+    'fi_fi-FI': {
+        days: [
+            'Su',
+            'Ma',
+            'Ti',
+            'Ke',
+            'To',
+            'Pe',
+            'La',
+        ],
+        months: [
+            'Tammikuu',
+            'Helmikuu',
+            'Maaliskuu',
+            'Huhtikuu',
+            'Toukokuu',
+            'Kesäkuu',
+            'Heinäkuu',
+            'Elokuu',
+            'Syyskuu',
+            'Lokakuu',
+            'Marraskuu',
+            'Joulukuu',
+        ],
+        today: 'Tänään',
+        format: 'dd/MM/YYYY',
+    },
 };
 
 export default localisations;

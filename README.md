@@ -1,19 +1,24 @@
-# configurable-date-input-polyfill
+<div align="center">
+    <h1>configurable-date-input-polyfill</h1>
 
-[![Build Status](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill.svg?branch=master)](https://travis-ci.org/KreutzerCode/configurable-date-input-polyfill)
+[![Build Status](https://travis-ci.com/KreutzerCode/configurable-date-input-polyfill.svg?branch=master)](https://travis-ci.com/github/KreutzerCode/configurable-date-input-polyfill)
 [![Monthly downloads](https://img.shields.io/npm/dm/configurable-date-input-polyfill.svg)](https://www.npmjs.com/package/configurable-date-input-polyfill)
 [![NPM version](https://badge.fury.io/js/configurable-date-input-polyfill.svg)](https://badge.fury.io/js/configurable-date-input-polyfill)
 [![Dependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill)
 [![DevDependencies Status](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill/dev-status.svg)](https://david-dm.org/KreutzerCode/configurable-date-input-polyfill?type=dev)
 
-The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
+<p>
+    The last date-input polyfill you will ever need. A fancy and lightweight datepicker with a high number of configuration options for all needs. Supports any calendar format and contains a large amount of localizations.
+</p>
 
 Just include this simple script and IE, Firefox, and OS X Safari will support `<input type="date">`, without any dependencies, not even jQuery!
 
 Forked from [date-input-polyfill](https://github.com/jcgertig/date-input-polyfill). Continuing as a separate project.
 
-
 [VIEW DEMO HERE](https://kreutzercode.github.io/configurable-date-input-polyfill/)
+
+</div>
+
 
 ## Features
 
@@ -67,7 +72,7 @@ include it anywhere in your HTML.
 * By setting the `min` and `max` attributes you can change the range of available date options. In case you are faced with an input without type date, it is recommended to use `data-min` and `data-max`.
 ```html
 <!--default dont need to be specified-->
-<input type="date" min="1800-01-01" max="2200-01-01"/>
+<input type="date" min="1800-01-01" max="3000-01-01"/>
 
 <!--custom-->
 <input type="date" min="2015-02-15" max="2030-01-01" />
@@ -90,7 +95,7 @@ include it anywhere in your HTML.
 ```
 
 ## First day of the Week (Matrix Formatting)
-* Specify the first day of the Week. With the data-first-day attribute you can change the day starting the week between Saturday, Sunday and Monday.
+* Specify the first day of the week. You can use the data-first-day attribute to change the day the week starts between Saturday, Sunday, and Monday.
 ```html
 <!--default dont need to be specified-->
 <input type="date" data-first-day="su" />
@@ -115,12 +120,18 @@ include it anywhere in your HTML.
 * iOS Safari 7+
 * Samsung Internet 11+
 
+---
 
 ## Contributing
 
-### Build
-Run `npm run build` to edit the Project
+Feel free to contribute. Whether it's a feature request or a pull request, any type of contribution is welcome.
+
+### Development
+* To start modifying the project, you will need to run `npm install` in the package folder.
+* After modifying the project files, you will need to run `npm run build` to apply your changes.
+* It is recommended to use `npm run watch` when making large changes.
 
 ### Production
-Run `npm run production` to do an optimization and minification to the final Project
+* When your changes are ready to be used in production, you need to run `npm run production`.
+* After that, the modified package is ready for use. Pull Requests of any kind are strongly encouraged!
 

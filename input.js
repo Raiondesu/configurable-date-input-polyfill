@@ -2,39 +2,103 @@ import Picker from './picker';
 import Localisation from './localisations';
 import DateFormat from './dateformat';
 
-export default class Input {
-    constructor(input) {
-        this.element = input;
-        this.element.setAttribute('data-has-picker', '');
+class Input {
+    getLocaleLabels(locale) {
+        let localeLabels;
 
-        this.locale = this.element.getAttribute('lang')
+        Object.keys(Localisation).forEach((key) => {
+            const localeSet = key;
+            let localeList = localeSet.split('_');
+            localeList = localeList.map((el) => el.toLowerCase());
+
+            if (localeList.indexOf(locale) >= 0 || localeList.indexOf(locale.substr(0, 2)) >= 0) {
+                localeLabels = Localisation[localeSet];
+            }
+        });
+        return localeLabels;
+    }
+
+    // determines if min and max values are given
+    getDateRange(minAttribute, maxAttribute) {
+        const defaultMinDate = new Date("1800");
+        const defaultMaxDate = new Date("3000");
+
+        let minDate = defaultMinDate;
+        let maxDate = defaultMaxDate;
+
+        // If min Attribute is set
+        if (minAttribute && Date.parse(minAttribute)) {
+            const givenDate = new Date(minAttribute);
+            givenDate.setHours(0, 0, 0, 0);
+            minDate = givenDate;
+        }
+        // If max Attribute is set
+        if (maxAttribute && Date.parse(maxAttribute)) {
+            const givenDate = new Date(maxAttribute);
+            givenDate.setHours(0, 0, 0, 0);
+            maxDate = givenDate;
+        }
+
+        // in case of invalid input
+        if (minDate > maxDate) {
+            minDate = defaultMinDate;
+            maxDate = defaultMaxDate;
+        }
+
+        if (minDate < new Date("0001")) {
+            minDate = new Date("0001");
+        }
+
+        return [minDate, maxDate];
+    }
+
+    // Return false if the browser does not support input[type="date"].
+    supportsDateInput() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'date');
+
+        const notADateValue = 'not-a-date';
+        input.setAttribute('value', notADateValue);
+
+        return !(input.value === notADateValue);
+    }
+
+    prepareInputForPicker(input) {
+        const inputObject = input;
+        inputObject.setAttribute('data-has-picker', '');
+
+        const locale = inputObject.getAttribute('lang')
             || document.body.getAttribute('lang')
             || 'en';
 
-        this.firstDayOfWeek = this.element.getAttribute('data-first-day')
-            || document.body.getAttribute('data-first-day')
-            || 'su';
-
-        this.format = this.element.getAttribute('date-format')
+        const dateFormat = inputObject.getAttribute('date-format')
             || document.body.getAttribute('date-format')
-            || this.element.getAttribute('data-date-format')
+            || inputObject.getAttribute('data-date-format')
             || document.body.getAttribute('data-date-format')
             || 'yyyy-mm-dd';
 
-        this.dateRange = this.getDateRange();
+        const minAttribute = inputObject.getAttribute('min')
+            || inputObject.getAttribute('data-min');
+        const maxAttribute = inputObject.getAttribute('max')
+            || inputObject.getAttribute('data-max');
 
-        this.localeLabels = this.getLocaleLabels();
+        inputObject.firstDayOfWeek = inputObject.getAttribute('data-first-day')
+            || document.body.getAttribute('data-first-day')
+            || 'su';
+
+        inputObject.dateRange = this.getDateRange(minAttribute, maxAttribute);
+        inputObject.localeLabels = this.getLocaleLabels(locale);
 
         Object.defineProperties(
-            this.element,
+            inputObject,
             {
                 valueAsDate: {
                     get: () => {
-                        if (!this.element.value) {
+                        if (!inputObject.value) {
                             return null;
                         }
-                        const format = this.format || 'yyyy-mm-dd';
-                        const parts = this.element.value.match(/(\d+)/g);
+                        const format = dateFormat || 'yyyy-mm-dd';
+                        const parts = inputObject.value.match(/(\d+)/g);
                         let i = 0;
                         const fmt = {};
 
@@ -43,10 +107,25 @@ export default class Input {
                             i += 1;
                         });
 
-                        return new Date(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
+                        // return null if no parts found
+                        if (!parts) {
+                            return null;
+                        }
+
+                        // create absolute date of given input
+                        const valueAsDate = new Date();
+                        valueAsDate.setFullYear(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
+                        valueAsDate.setHours(0, 0, 0, 0);
+
+                        // return null in case of invalid date
+                        if (isNaN(valueAsDate)) {
+                            return null;
+                        }
+
+                        return valueAsDate;
                     },
                     set: (val) => {
-                        this.element.value = DateFormat(val, this.format);
+                        inputObject.value = DateFormat(val, dateFormat);
                         // trigger change event to execute event listeners on the date element
                         let event;
                         // IE event support check
@@ -57,19 +136,19 @@ export default class Input {
                             event.initEvent('change', true, true);
                         }
 
-                        this.element.dispatchEvent(event);
+                        inputObject.dispatchEvent(event);
                     },
                 },
                 valueAsNumber: {
                     get: () => {
-                        if (!this.element.value) {
+                        if (!inputObject.value) {
                             return NaN;
                         }
 
-                        return this.element.valueAsDate.valueOf();
+                        return inputObject.valueAsDate.valueOf();
                     },
                     set: (val) => {
-                        this.element.valueAsDate = new Date(val);
+                        inputObject.valueAsDate = new Date(val);
                     },
                 },
             },
@@ -103,23 +182,19 @@ export default class Input {
 
         // Open the picker when the input get focus,
         // also on various click events to capture it in all corner cases.
+        // use const didAttach = Picker.attachTo(elm); to double check
         const showPicker = () => {
-            const elm = this.element;
-            elm.firstDayOfWeek = this.firstDayOfWeek;
-            elm.locale = this.localeLabels;
-            elm.dateRange = this.dateRange;
-            // const didAttach = Picker.attachTo(elm); <-for checking purposes
-            Picker.attachTo(elm);
+            Picker.attachTo(inputObject);
         };
 
-        this.element.addEventListener('focus', showPicker);
-        this.element.addEventListener('mouseup', showPicker);
+        inputObject.addEventListener('focus', showPicker);
+        inputObject.addEventListener('mouseup', showPicker);
 
-        const minDate = this.dateRange[0];
-        const maxDate = this.dateRange[1];
+        const minDate = inputObject.dateRange[0];
+        const maxDate = inputObject.dateRange[1];
 
         // Update the picker if the date changed manually in the input.
-        this.element.addEventListener('keydown', (e) => {
+        inputObject.addEventListener('keydown', (e) => {
             let date = new Date();
 
             switch (e.keyCode) {
@@ -130,45 +205,45 @@ export default class Input {
                     break;
                 case 37:
                     // arrow left
-                    if (this.element.valueAsDate) {
+                    if (inputObject.valueAsDate) {
                         date = Picker.returnCurrentDate();
                         date.setDate(date.getDate() - 1);
 
                         if (date >= minDate) {
-                            this.element.valueAsDate = date;
+                            inputObject.valueAsDate = date;
                         }
                     }
                     break;
                 case 38:
                     // arrow up
-                    if (this.element.valueAsDate) {
+                    if (inputObject.valueAsDate) {
                         date = Picker.returnCurrentDate();
                         date.setDate(date.getDate() - 7);
 
                         if (date >= minDate) {
-                            this.element.valueAsDate = date;
+                            inputObject.valueAsDate = date;
                         }
                     }
                     break;
                 case 39:
                     // arrow right
-                    if (this.element.valueAsDate) {
+                    if (inputObject.valueAsDate) {
                         date = Picker.returnCurrentDate();
                         date.setDate(date.getDate() + 1);
 
                         if (date <= maxDate) {
-                            this.element.valueAsDate = date;
+                            inputObject.valueAsDate = date;
                         }
                     }
                     break;
                 case 40:
                     // arrow down
-                    if (this.element.valueAsDate) {
+                    if (inputObject.valueAsDate) {
                         date = Picker.returnCurrentDate();
                         date.setDate(date.getDate() + 7);
 
                         if (date <= maxDate) {
-                            this.element.valueAsDate = date;
+                            inputObject.valueAsDate = date;
                         }
                     }
                     break;
@@ -180,89 +255,13 @@ export default class Input {
             Picker.syncPickerWithInput();
         });
 
-        this.element.addEventListener('keyup', () => {
+        inputObject.addEventListener('keyup', () => {
             Picker.syncPickerWithInput();
         });
     }
 
-    getLocaleLabels() {
-        const locale = this.locale.toLowerCase();
-        let localeLabels;
-
-        Object.keys(Localisation).forEach((key) => {
-            const localeSet = key;
-            let localeList = localeSet.split('_');
-            localeList = localeList.map((el) => el.toLowerCase());
-
-            if (localeList.indexOf(locale) >= 0 || localeList.indexOf(locale.substr(0, 2)) >= 0) {
-                localeLabels = Localisation[localeSet];
-            }
-        });
-        return localeLabels;
-    }
-
-    // determines if min and max values are given
-    getDateRange() {
-        const minDateMark = new Date("1800");
-        const maxDateMark = new Date("2200");
-
-        const dateRange = [];
-
-        let minDate;
-        let maxDate;
-
-        const minAttribute = this.element.getAttribute('min')
-            || this.element.getAttribute('data-min');
-        // If attribute exisits
-        if (minAttribute) {
-            const givenDate = new Date(minAttribute);
-            givenDate.setHours(0, 0, 0, 0);
-            if (givenDate >= minDateMark && givenDate < maxDateMark) {
-                minDate = givenDate;
-            }
-        }
-
-        const maxAttribute = this.element.getAttribute('max')
-            || this.element.getAttribute('data-max');
-        // If attribute exisits
-        if (maxAttribute) {
-            const givenDate = new Date(maxAttribute);
-            givenDate.setHours(0, 0, 0, 0);
-            if (givenDate > minDateMark && givenDate <= maxDateMark) {
-                maxDate = givenDate;
-            }
-        }
-        // Check if minDate is set
-        if (!minDate) {
-            minDate = minDateMark;
-        }
-        // Check if maxDate is set
-        if (!maxDate) {
-            maxDate = maxDateMark;
-        }
-        // Check if there are in correct order
-        if (minDate < maxDate) {
-            dateRange.push(minDate, maxDate);
-        } else {
-            dateRange.push(minDateMark, maxDateMark);
-        }
-
-        return dateRange;
-    }
-
-    // Return false if the browser does not support input[type="date"].
-    static supportsDateInput() {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'date');
-
-        const notADateValue = 'not-a-date';
-        input.setAttribute('value', notADateValue);
-
-        return !(input.value === notADateValue);
-    }
-
     // Will add the Picker to all inputs in the page.
-    static addPickerToDateInputs() {
+    addPickerToDateInputs() {
         // Get and loop all input[type="date"]s that do not have '[data-has-picker]' yet.
         const dateInputs = document.querySelectorAll('input[type="date"]:not([data-has-picker])');
         const { length } = dateInputs;
@@ -272,13 +271,13 @@ export default class Input {
         }
 
         for (let i = 0; i < length; i += 1) {
-            new Input(dateInputs[i]);
+            this.prepareInputForPicker(dateInputs[i]);
         }
 
         return true;
     }
 
-    static addPickerToOtherInputs() {
+    addPickerToOtherInputs() {
         // Get and loop all the input[type="text"]s with
         // class date-polyfill that do not have '[data-has-picker]' yet.
         const dateInputs = document.querySelectorAll('input[type="text"].date-polyfill:not([data-has-picker])');
@@ -289,9 +288,11 @@ export default class Input {
         }
 
         for (let i = 0; i < length; i += 1) {
-            new Input(dateInputs[i]);
+            this.prepareInputForPicker(dateInputs[i]);
         }
 
         return true;
     }
 }
+
+export default new Input();
