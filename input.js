@@ -67,19 +67,19 @@ class Input {
         const inputObject = input;
         inputObject.setAttribute('data-has-picker', '');
 
-        const locale = inputObject.getAttribute('lang')
+        let locale = inputObject.getAttribute('lang')
             || document.body.getAttribute('lang')
             || 'en';
 
-        const dateFormat = inputObject.getAttribute('date-format')
+        let dateFormat = inputObject.getAttribute('date-format')
             || document.body.getAttribute('date-format')
             || inputObject.getAttribute('data-date-format')
             || document.body.getAttribute('data-date-format')
             || 'yyyy-mm-dd';
 
-        const minAttribute = inputObject.getAttribute('min')
+        let minAttribute = inputObject.getAttribute('min')
             || inputObject.getAttribute('data-min');
-        const maxAttribute = inputObject.getAttribute('max')
+        let maxAttribute = inputObject.getAttribute('max')
             || inputObject.getAttribute('data-max');
 
         inputObject.firstDayOfWeek = inputObject.getAttribute('data-first-day')
@@ -159,23 +159,28 @@ class Input {
             const mutationObserver = new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     if (mutation.attributeName.indexOf('min') !== -1 || mutation.attributeName.indexOf('max') !== -1) {
-                        this.dateRange = this.getDateRange();
+                        minAttribute = inputObject.getAttribute('min')
+                            || inputObject.getAttribute('data-min');
+                        maxAttribute = inputObject.getAttribute('max')
+                            || inputObject.getAttribute('data-max');
+                        inputObject.dateRange = this.getDateRange(minAttribute, maxAttribute);
                     } else if (mutation.attributeName === 'lang') {
-                        this.locale = this.element.getAttribute(mutation.attributeName);
-                        this.localeLabels = this.getLocaleLabels();
+                        locale = inputObject.getAttribute(mutation.attributeName);
+                        inputObject.localeLabels = this.getLocaleLabels(locale);
                     } else if (mutation.attributeName === 'data-first-day') {
-                        this.firstDayOfWeek = this.element.getAttribute(mutation.attributeName);
+                        inputObject.firstDayOfWeek = inputObject
+                                .getAttribute(mutation.attributeName);
                     } else if (mutation.attributeName === 'data-date-format' || mutation.attributeName === 'date-format') {
-                        const date = this.element.valueAsDate;
-                        this.format = this.element.getAttribute(mutation.attributeName);
+                        const date = inputObject.valueAsDate;
+                        dateFormat = inputObject.getAttribute(mutation.attributeName);
                         if (date) {
-                            this.element.valueAsDate = date; // reset date to update the format
+                            inputObject.valueAsDate = date; // reset date to update the format
                         }
                     }
                 });
             });
 
-            mutationObserver.observe(this.element, {
+            mutationObserver.observe(inputObject, {
                 attributes: true,
             });
         }
