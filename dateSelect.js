@@ -72,20 +72,15 @@ export class YearSelect extends DateSelect {
         }
 
         /* downClick Function */
-        this.toggleDown.addEventListener('click', (buttonObject) => {
-            const activeButton = buttonObject;
+        this.toggleDown.addEventListener('click', () => {
             // update array order
             this.yearArray.shift();
             this.yearArray.push(this.yearArray[this.yearArray.length - 1] + 1);
-
-            for (let i = 0; i < 5; i += 1) {
-              activeButton.target.previousElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
-            }
+            this.redrawYearSelect();
         });
 
         /* upClick Function */
-        this.toggleUp.addEventListener('click', (buttonObject) => {
-            const activeButton = buttonObject;
+        this.toggleUp.addEventListener('click', () => {
             if (this.yearArray[2] === 1) {
                 return;
             }
@@ -96,10 +91,14 @@ export class YearSelect extends DateSelect {
                 this.yearArray[0] = '';
             }
 
-            for (let i = 0; i < 5; i += 1) {
-                activeButton.target.nextElementSibling.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
-            }
+            this.redrawYearSelect();
         });
+    }
+
+    redrawYearSelect() {
+        for (let i = 0; i < 5; i += 1) {
+            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
+        }
     }
 
     toggleByInput(value) {
@@ -149,30 +148,26 @@ export class MonthSelect extends DateSelect {
         }
 
         /* downClick Function */
-        this.toggleDown.addEventListener('click', (buttonObject) => {
-            const activeButton = buttonObject;
+        this.toggleDown.addEventListener('click', () => {
             // update array order
             this.monthArray.push(this.monthArray.shift());
-
-            const monthStringArray = this.returnMonthStringArray(this.monthArray);
-
-            for (let i = 0; i < 5; i += 1) {
-                activeButton.target.previousElementSibling.getElementsByClassName('option')[i].innerHTML = monthStringArray[i];
-            }
+            this.redrawMonthSelect();
         });
 
         /* upClick Function */
-        this.toggleUp.addEventListener('click', (buttonObject) => {
-            const activeButton = buttonObject;
+        this.toggleUp.addEventListener('click', () => {
             // update array order
             this.monthArray.unshift(this.monthArray.pop());
-
-            const monthStringArray = this.returnMonthStringArray(this.monthArray);
-
-            for (let i = 0; i < 5; i += 1) {
-                activeButton.target.nextElementSibling.getElementsByClassName('option')[i].innerHTML = monthStringArray[i];
-            }
+            this.redrawMonthSelect();
         });
+    }
+
+    redrawMonthSelect() {
+        const monthStringArray = this.returnMonthStringArray(this.monthArray);
+
+        for (let i = 0; i < 5; i += 1) {
+            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = monthStringArray[i];
+        }
     }
 
     returnMonthStringArray(monthArray) {
