@@ -34,7 +34,6 @@ export class DateSelect {
                 calculatedDateOffset = targetDate - dateArray[2];
                 break;
             default:
-                // console.log('Error in MonthSelect calculateDateOffset');
                 break;
         }
 
@@ -116,9 +115,7 @@ export class YearSelect extends DateSelect {
             targetYear += 1;
         }
 
-        for (let i = 0; i < 5; i += 1) {
-            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
-        }
+        this.redrawYearSelect();
     }
 
     returnSelectedYear() {
@@ -189,11 +186,8 @@ export class MonthSelect extends DateSelect {
         if (value !== this.monthArray[2]) {
             this.monthArray = this.rotate(this.monthArray,
                 this.calculateDateOffset(this.monthArray, value));
-            this.monthStringArray = this.returnMonthStringArray(this.monthArray);
 
-            for (let i = 0; i < 5; i += 1) {
-                this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.monthStringArray[i];
-            }
+                this.redrawMonthSelect();
         }
     }
 
@@ -206,14 +200,10 @@ export class MonthSelect extends DateSelect {
                 this.monthArray = this.rotate(this.monthArray, 11);
                 break;
             default:
-            // console.log('mode is not defined in toggleMonthByMatrix');
+                break;
         }
 
-        this.monthStringArray = this.returnMonthStringArray(this.monthArray);
-
-        for (let i = 0; i < 5; i += 1) {
-            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.monthStringArray[i];
-        }
+        this.redrawMonthSelect();
     }
 
     returnSelectedMonthAsLabel() {
