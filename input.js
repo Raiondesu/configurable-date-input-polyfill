@@ -98,13 +98,20 @@ class Input {
                             return null;
                         }
 
+                        function findIndexWithKey(arr, key) {
+                            for (let i = arr.length - 1; i >= 0; i -= 1) {
+                                if (arr[i].charAt(0) === key) return i;
+                            }
+                            return null;
+                        }
+
                         const format = dateFormat || 'yyyy-mm-dd';
                         const f = format.split(/(m+|d+|y+)/).filter(Boolean);
                         const value = inputObject.value.split(/(\D+)/).filter(Boolean);
                         const [year, month, day] = [
-                            value[f.findIndex((i) => i.startsWith('y'))],
-                            value[f.findIndex((i) => i.startsWith('m'))],
-                            value[f.findIndex((i) => i.startsWith('d'))],
+                            value[findIndexWithKey(f, 'y')],
+                            value[findIndexWithKey(f, 'm')],
+                            value[findIndexWithKey(f, 'd')],
                         ];
 
                         // create absolute date of given input
