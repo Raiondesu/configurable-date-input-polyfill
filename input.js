@@ -97,25 +97,25 @@ class Input {
                         if (!inputObject.value) {
                             return null;
                         }
-                        const format = dateFormat || 'yyyy-mm-dd';
-                        const parts = inputObject.value.match(/(\d+)/g);
-                        let i = 0;
-                        const fmt = {};
 
-                        format.replace(/(yyyy|dd|mm)/g, (part) => {
-                            fmt[part] = i;
-                            i += 1;
-                        });
-
-                        // return null if no parts found
-                        if (!parts) {
+                        function findIndexWithKey(arr, key) {
+                            for (let i = arr.length - 1; i >= 0; i -= 1) {
+                                if (arr[i].charAt(0) === key) return i;
+                            }
                             return null;
                         }
 
+                        const format = dateFormat || 'yyyy-mm-dd';
+                        const f = format.split(/(m+|d+|y+)/).filter(Boolean);
+                        const value = inputObject.value.split(/(\D+)/).filter(Boolean);
+                        const [year, month, day] = [
+                            value[findIndexWithKey(f, 'y')],
+                            value[findIndexWithKey(f, 'm')],
+                            value[findIndexWithKey(f, 'd')],
+                        ];
+
                         // create absolute date of given input
-                        const valueAsDate = new Date();
-                        valueAsDate.setFullYear(parts[fmt.yyyy], parts[fmt.mm] - 1, parts[fmt.dd]);
-                        valueAsDate.setHours(0, 0, 0, 0);
+                        const valueAsDate = new Date(year, month - 1, day, 0, 0, 0, 0);
 
                         // return null in case of invalid date
                         if (isNaN(valueAsDate)) {
