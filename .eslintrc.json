@@ -5,7 +5,7 @@
     },
     "extends": "airbnb-base",
     "parser": "@babel/eslint-parser",
-    "ignorePatterns": ["dateformat.js"],
+    "ignorePatterns": ["webpack.config.js","dateformat.js","configurable-date-input-polyfill.dist.js"],
     "rules": {
         "linebreak-style": 0,
         "indent": 0,
