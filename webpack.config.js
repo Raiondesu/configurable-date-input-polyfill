@@ -1,12 +1,6 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-const options = {
-    extensions: [`js`],
-    exclude: [
-        `/node_modules/`
-    ],
-}
 
 module.exports = {
     entry: './configurable-date-input-polyfill.js',
@@ -23,7 +17,12 @@ module.exports = {
             forOf: false, // The environment supports 'for of' iteration.
         },
     },
-    plugins: [new ESLintPlugin(options)],
+    plugins: [new ESLintPlugin({
+        extensions: [`js`],
+        exclude: [
+            `/node_modules/`
+        ],
+    })],
     module: {
         rules: [
             {
