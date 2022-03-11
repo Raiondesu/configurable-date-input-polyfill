@@ -26,9 +26,9 @@ class Picker {
         this.selectWrapper.className = 'select-container';
         this.dateSelectWrapper.appendChild(this.selectWrapper);
 
-        this.monthSelect = document.createElement('div');
-        this.monthSelect.className = 'select-wrapper month-select';
-        this.selectWrapper.appendChild(this.monthSelect);
+        this.monthSelectDiv = document.createElement('div');
+        this.monthSelectDiv.className = 'select-wrapper month-select';
+        this.selectWrapper.appendChild(this.monthSelectDiv);
 
         this.yearSelect = new YearSelect();
         this.selectWrapper.appendChild(this.yearSelect.returnDateSelectWrapper());
@@ -150,30 +150,24 @@ class Picker {
     positionPicker(element) {
         const rekt = element.getBoundingClientRect();
         this.container.style.top = `${rekt.top + rekt.height
-            + (document.documentElement.scrollTop || document.body.scrollTop)
-            + 3
-            }px`;
+        + (document.documentElement.scrollTop || document.body.scrollTop)
+        + 3
+        }px`;
 
         const contRekt = this.container.getBoundingClientRect();
         const width = contRekt.width ? contRekt.width : 280;
 
-        const classWithOutPos = () => {
-            this.container.className
-                .replace('polyfill-left-aligned', '')
-                .replace('polyfill-right-aligned', '')
-                .replace(/\s+/g, ' ').trim();
-        };
-
         let base = rekt.right - width;
+        this.container.className = `polyfill-right-aligned`;
+
         if (rekt.right < width) {
             base = rekt.left;
-            this.container.className = `${classWithOutPos()} polyfill-left-aligned`;
-        } else {
-            this.container.className = `${classWithOutPos()} polyfill-right-aligned`;
+            this.container.className = `polyfill-left-aligned`;
         }
+
         this.container.style.left = `${base
-            + (document.documentElement.scrollLeft || document.body.scrollLeft)
-            }px`;
+        + (document.documentElement.scrollLeft || document.body.scrollLeft)
+        }px`;
         this.show();
     }
 
@@ -192,7 +186,8 @@ class Picker {
 
     // Hide.
     hide() {
-        this.container.setAttribute('data-open', this.isOpen = false);
+        this.isOpen = false;
+        this.container.setAttribute('data-open', this.isOpen);
 
         this.dateHeaderButton.className = 'date-header-button date-header-button-inactive';
 
@@ -207,7 +202,8 @@ class Picker {
 
     // Show.
     show() {
-        this.container.setAttribute('data-open', this.isOpen = true);
+        this.isOpen = true;
+        this.container.setAttribute('data-open', this.isOpen);
         // Close the picker when clicking outside of a date input or picker.
         setTimeout(() => {
             document.addEventListener('mousedown', this.removeClickOut);
@@ -237,8 +233,10 @@ class Picker {
         this.selectWrapper.removeChild(this.selectWrapper.getElementsByClassName('select-wrapper month-select')[0]);
         this.monthSelect = new MonthSelect(this.locale.months);
 
-        this.selectWrapper.insertBefore(this.monthSelect.returnDateSelectWrapper(),
-            this.selectWrapper.firstChild);
+        this.selectWrapper.insertBefore(
+            this.monthSelect.returnDateSelectWrapper(),
+            this.selectWrapper.firstChild,
+        );
 
         // create new DateRange Object
         const minRange = new Date(this.input.dateRange[0].getTime());
@@ -264,10 +262,10 @@ class Picker {
         // Setup click events for the selection Button
         this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
 
-        const dateSelectControlls = this.selectWrapper.getElementsByClassName('control');
+        const dateSelectControls = this.selectWrapper.getElementsByClassName('control');
 
-        for (let i = 0; i < dateSelectControlls.length; i += 1) {
-            dateSelectControlls[i].addEventListener('click', () => {
+        for (let i = 0; i < dateSelectControls.length; i += 1) {
+            dateSelectControls[i].addEventListener('click', () => {
                 this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
             });
         }
@@ -388,8 +386,10 @@ class Picker {
             // If no days from this month in this column, it will be empty.
             if (i + 1 <= startDay) {
                 const calculatedPrevMonthDate = this.returnAbsoluteDate(
-                    year, month - 1, oldDaysInCurrentMonth[i],
-                    );
+                    year,
+                    month - 1,
+                    oldDaysInCurrentMonth[i],
+                );
 
                 matrixHTML.push(`<td class="prev-month 
                     ${calculatedPrevMonthDate < minDate || calculatedPrevMonthDate > maxDate ? `disabled` : ``}">${oldDaysInCurrentMonth[i]}</td>`);
