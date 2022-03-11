@@ -127,7 +127,6 @@ export class MonthSelect extends DateSelect {
     constructor(targetLocaleArray) {
         super();
         this.dateSelectWrapper.className = 'select-wrapper month-select';
-        this.currentMonth = this.date.getMonth();
 
         this.monthArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -184,8 +183,10 @@ export class MonthSelect extends DateSelect {
 
     toggleByInput(value) {
         if (value !== this.monthArray[2]) {
-            this.monthArray = this.rotate(this.monthArray,
-                this.calculateDateOffset(this.monthArray, value));
+            this.monthArray = this.rotate(
+                this.monthArray,
+                this.calculateDateOffset(this.monthArray, value),
+            );
 
                 this.redrawMonthSelect();
         }
