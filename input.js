@@ -10,8 +10,7 @@ class Input {
             const localeSet = key;
             let localeList = localeSet.split('_');
             localeList = localeList.map((el) => el.toLowerCase());
-
-            if (localeList.indexOf(locale) >= 0 || localeList.indexOf(locale.substr(0, 2)) >= 0) {
+            if (localeList.indexOf(locale) >= 0 || localeList.indexOf(locale.slice(0, 2)) >= 0) {
                 localeLabels = Localisation[localeSet];
             }
         });
@@ -109,16 +108,16 @@ class Input {
                         const f = format.split(/(m+|d+|y+)/).filter(Boolean);
                         const value = inputObject.value.split(/(\D+)/).filter(Boolean);
                         const [year, month, day] = [
-                            value[findIndexWithKey(f, 'y')],
-                            value[findIndexWithKey(f, 'm')],
-                            value[findIndexWithKey(f, 'd')],
+                            Number(value[findIndexWithKey(f, 'y')]),
+                            Number(value[findIndexWithKey(f, 'm')]),
+                            Number(value[findIndexWithKey(f, 'd')]),
                         ];
 
                         // create absolute date of given input
                         const valueAsDate = new Date(year, month - 1, day, 0, 0, 0, 0);
 
                         // return null in case of invalid date
-                        if (isNaN(valueAsDate)) {
+                        if (isNaN(valueAsDate.getDate())) {
                             return null;
                         }
 
