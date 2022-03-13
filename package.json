@@ -1,6 +1,6 @@
 {
   "name": "configurable-date-input-polyfill",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "The last Date-Input-Polyfill you will ever need. Automatically adds datepickers to input[type=date] on IE, Firefox, and OS X Safari. Configurable localization and start of week day.",
   "main": "configurable-date-input-polyfill.dist.js",
   "repository": {
