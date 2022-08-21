@@ -65,7 +65,7 @@ export class YearSelect extends DateSelect {
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
             const option = document.createElement('div');
-            option.className = `option option-${i}`;
+            option.className = 'option';
 
             this.optionWrapper.appendChild(option);
         }
@@ -137,7 +137,7 @@ export class MonthSelect extends DateSelect {
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
             const option = document.createElement('div');
-            option.className = `option option-${i}`;
+            option.className = 'option';
             option.innerHTML = this.monthStringArray[i];
 
             this.optionWrapper.appendChild(option);

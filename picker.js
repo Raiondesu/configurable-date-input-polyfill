@@ -38,15 +38,15 @@ class Picker {
         dateSelectHeader.className = 'date-select-header';
 
         this.dateHeaderButton = document.createElement('button');
-        this.dateHeaderButton.className = 'date-header-button date-header-button-inactive';
+        this.dateHeaderButton.className = 'date-header-button inactive';
         this.dateHeaderButton.addEventListener('click', () => {
-            if (this.dateHeaderButton.classList.contains('date-header-button-inactive')) {
-                this.dateHeaderButton.classList.add('date-header-button-active');
-                this.dateHeaderButton.classList.remove('date-header-button-inactive');
+            if (this.dateHeaderButton.classList.contains('inactive')) {
+                this.dateHeaderButton.classList.add('active');
+                this.dateHeaderButton.classList.remove('inactive');
                 this.dateSelectWrapper.style.display = 'block';
-            } else if (this.dateHeaderButton.classList.contains('date-header-button-active')) {
-                this.dateHeaderButton.classList.add('date-header-button-inactive');
-                this.dateHeaderButton.classList.remove('date-header-button-active');
+            } else if (this.dateHeaderButton.classList.contains('active')) {
+                this.dateHeaderButton.classList.add('inactive');
+                this.dateHeaderButton.classList.remove('active');
                 this.dateSelectWrapper.style.display = 'none';
 
                 // Refresh dayMatrix here cause performance
@@ -189,7 +189,7 @@ class Picker {
         this.isOpen = false;
         this.container.setAttribute('data-open', this.isOpen);
 
-        this.dateHeaderButton.className = 'date-header-button date-header-button-inactive';
+        this.dateHeaderButton.className = 'date-header-button inactive';
 
         // Close the picker when clicking outside of a date input or picker.
         if (this.input) {

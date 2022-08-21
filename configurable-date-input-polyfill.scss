@@ -41,34 +41,34 @@ date-input-polyfill {
       position: relative;
       line-height: 15px;
       font-size: 13px;
-    }
 
-    .date-header-button-active:after {
-      content: "<";
-      display: inline-block;
-      position: absolute;
-      right: 10px;
-      -webkit-transform: rotate(90deg);
-      -moz-transform: rotate(90deg);
-      -o-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-      transform: rotate(90deg);
-      font-size: 18px;
-      top: 6px;
-    }
+      &.active:after {
+        content: "<";
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+        font-size: 18px;
+        top: 6px;
+      }
 
-    .date-header-button-inactive:after {
-      content: "<";
-      display: inline-block;
-      position: absolute;
-      right: 10px;
-      -webkit-transform: rotate(-90deg);
-      -moz-transform: rotate(-90deg);
-      -o-transform: rotate(-90deg);
-      -ms-transform: rotate(-90deg);
-      transform: rotate(-90deg);
-      font-size: 18px;
-      top: 6px;
+      &.inactive:after {
+        content: "<";
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        font-size: 18px;
+        top: 6px;
+      }
     }
   }
 
@@ -179,9 +179,7 @@ date-input-polyfill {
         outline: none;
         color: $arrows-color;
         position: relative;
-      }
 
-      .up {
         &:after {
           content: "<";
           position: absolute;
@@ -199,13 +197,6 @@ date-input-polyfill {
 
       .down {
         &:after {
-          content: "<";
-          position: absolute;
-          top: 0;
-          left: unset;
-          right: 19px;
-          font-size: 20px;
-          display: inline-block;
           -webkit-transform: rotate(-90deg);
           -moz-transform: rotate(-90deg);
           -o-transform: rotate(-90deg);
@@ -233,10 +224,10 @@ date-input-polyfill {
             float: left;
             width: 100%;
             line-height: 25px;
-          }
 
-          .option-2 {
-            background-color: $lightgrey-color;
+            &:nth-child(3) {
+              background-color: $lightgrey-color;
+            }
           }
         }
       }
