@@ -41,12 +41,10 @@ class Picker {
         this.dateHeaderButton.className = 'date-header-button inactive';
         this.dateHeaderButton.addEventListener('click', () => {
             if (this.dateHeaderButton.classList.contains('inactive')) {
-                this.dateHeaderButton.classList.add('active');
-                this.dateHeaderButton.classList.remove('inactive');
+                this.dateHeaderButton.className = 'date-header-button active';
                 this.dateSelectWrapper.style.display = 'block';
             } else if (this.dateHeaderButton.classList.contains('active')) {
-                this.dateHeaderButton.classList.add('inactive');
-                this.dateHeaderButton.classList.remove('active');
+                this.dateHeaderButton.className = 'date-header-button inactive';
                 this.dateSelectWrapper.style.display = 'none';
 
                 // Refresh dayMatrix here cause performance
