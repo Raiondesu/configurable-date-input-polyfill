@@ -273,7 +273,7 @@
                     <div class="col-md-12 col-xl-4 example-input" id="dynamic-example">
                         <script>
                             setTimeout(function () {
-                                const input = document.createElement("input");
+                                var input = document.createElement("input");
                                 input.setAttribute("type", "date");
                                 document.getElementById("dynamic-example").appendChild(input);
                             }, 2000);
