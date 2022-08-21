@@ -35,6 +35,8 @@ can set the calendar matrix format to any standard. Value of this attribute can 
 * Polyfill works with `valueAsDate` and `valueAsNumber`.
 [Learn more about these properties.](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement#property-valueasdate)
 They behave as getters and setters.
+* Change detection of input attributes via [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) 
+always keeps the datepicker up to date.
 
 
 ## Install
