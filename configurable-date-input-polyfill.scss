@@ -1,7 +1,7 @@
 $white-color: #ffffff;
 $lightgrey-color: #d3d3d3;
 $grey-color: #808080;
-$font-color:  #000000;
+$font-color: #000000;
 $weekdaylabel-color: #b4b4b4;
 $currentday-color: #cce5f3;
 $selectedday-color: #a2d8f6;
@@ -99,6 +99,7 @@ date-input-polyfill {
           font-size: 18px;
         }
       }
+
       tbody {
         td {
           border: solid 1px $white-color;
@@ -110,6 +111,7 @@ date-input-polyfill {
           &.current-day {
             border: solid 1px $currentday-color;
             background-color: $currentday-color;
+
             &.disabled {
               border: solid 1px $white-color;
             }
@@ -119,6 +121,7 @@ date-input-polyfill {
             font-weight: bold;
             border: solid 1px $selectedday-color;
             background-color: $selectedday-color;
+
             &:hover {
               border: solid 1px $selectedday-color;
               background-color: $selectedday-color;
@@ -127,6 +130,7 @@ date-input-polyfill {
 
           &.prev-month, &.next-month {
             color: $lightgrey-color;
+
             &:hover {
               color: $white-color;
             }
@@ -135,6 +139,7 @@ date-input-polyfill {
           &.disabled {
             background-color: $grey-color;
             color: #d3d3d3;
+
             &:hover {
               background-color: $grey-color;
               border: solid 1px $white-color;
