@@ -7,14 +7,14 @@
     "parser": "@babel/eslint-parser",
     "ignorePatterns": ["webpack.config.js","dateformat.js","configurable-date-input-polyfill.dist.js"],
     "rules": {
-        "linebreak-style": 0,
-        "indent": 0,
         "radix": 0,
-        "max-classes-per-file": 0,
-        "no-restricted-globals": 0,
-        "class-methods-use-this": 0,
         "quotes": 0,
-        "no-constructor-return": 0
+        "indent": 0,
+        "max-len": 0,
+        "linebreak-style": 0,
+        "max-classes-per-file": 0,
+        "class-methods-use-this": 0,
+        "lines-between-class-members": 0
     },
     "parserOptions": {
         "ecmaVersion": 11,
