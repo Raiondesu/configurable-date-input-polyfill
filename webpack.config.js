@@ -3,7 +3,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 
 module.exports = {
-    entry: './configurable-date-input-polyfill.js',
+    entry: './src/configurable-date-input-polyfill.js',
     output: {
         filename: 'configurable-date-input-polyfill.dist.js',
         path: path.resolve(__dirname, 'dist'),
