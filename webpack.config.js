@@ -6,7 +6,7 @@ module.exports = {
     entry: './configurable-date-input-polyfill.js',
     output: {
         filename: 'configurable-date-input-polyfill.dist.js',
-        path: path.resolve(__dirname, ''),
+        path: path.resolve(__dirname, 'dist'),
         environment: {
             arrowFunction: false, // The environment supports arrow functions.
             bigIntLiteral: false, // The environment supports BigInt as literal.

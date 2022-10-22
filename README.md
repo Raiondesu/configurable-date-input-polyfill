@@ -51,9 +51,9 @@ Add to your project:
 * **Script Tag:** Copy `configurable-date-input-polyfill.dist.js` from `node_modules` and
 include it anywhere in your HTML.
 ```html
-<script src="configurable-date-input-polyfill.dist.js"></script>
+<script src="./dist/configurable-date-input-polyfill.dist.js"></script>
 
-<script src="node_modules/configurable-date-input-polyfill/configurable-date-input-polyfill.dist.js"></script>
+<script src="node_modules/configurable-date-input-polyfill/dist/onfigurable-date-input-polyfill.dist.js"></script>
 ```
 
 
