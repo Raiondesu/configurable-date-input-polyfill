@@ -1,54 +1,19 @@
 export class DateSelect {
+    date = new Date();
+    toggleUp = document.createElement('button');
+    toggleDown = document.createElement('button');
+    optionWrapper = document.createElement('div');
+    dateSelectWrapper = document.createElement('div');
+
     constructor() {
-        this.dateSelectWrapper = document.createElement('div');
-        this.dateSelectWrapper.className = 'select-wrapper';
-
-        this.toggleUp = document.createElement('button');
         this.toggleUp.className = 'control up';
-
-        this.toggleDown = document.createElement('button');
         this.toggleDown.className = 'control down';
-
-        this.optionWrapper = document.createElement('div');
         this.optionWrapper.className = 'option-wrapper';
+        this.dateSelectWrapper.className = 'select-wrapper';
 
         this.dateSelectWrapper.appendChild(this.toggleUp);
         this.dateSelectWrapper.appendChild(this.optionWrapper);
         this.dateSelectWrapper.appendChild(this.toggleDown);
-
-        this.date = new Date();
-    }
-
-    calculateDateOffset(dateArray, targetDate) {
-        const dateArrayLength = dateArray.length;
-        let calculatedDateOffset = 0;
-
-        switch (true) {
-            case (targetDate < dateArray[2]):
-                calculatedDateOffset = (dateArrayLength - dateArray[2]) + targetDate;
-                break;
-            case (targetDate === dateArray[2]):
-                // do nothing because default value fits
-                break;
-            case (targetDate > dateArray[2]):
-                calculatedDateOffset = targetDate - dateArray[2];
-                break;
-            default:
-                break;
-        }
-
-        return calculatedDateOffset;
-    }
-
-    rotate(array, times) {
-        let timesToRotate = times;
-        while (timesToRotate > 0) {
-            const temp = array.shift();
-            array.push(temp);
-            timesToRotate -= 1;
-        }
-
-        return array;
     }
 
     returnDateSelectWrapper() {
@@ -57,16 +22,16 @@ export class DateSelect {
 }
 
 export class YearSelect extends DateSelect {
+    yearArray = [];
+
     constructor() {
         super();
         this.dateSelectWrapper.className = 'select-wrapper year-select';
-        this.yearArray = [];
 
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
             const option = document.createElement('div');
             option.className = 'option';
-
             this.optionWrapper.appendChild(option);
         }
 
@@ -74,7 +39,7 @@ export class YearSelect extends DateSelect {
         this.toggleDown.addEventListener('click', () => {
             // update array order
             this.yearArray.shift();
-            this.yearArray.push(this.yearArray[this.yearArray.length - 1] + 1);
+            this.yearArray.push(Number(this.yearArray[this.yearArray.length - 1]) + 1);
             this.redrawYearSelect();
         });
 
@@ -85,7 +50,7 @@ export class YearSelect extends DateSelect {
             }
             // update array order
             this.yearArray.pop();
-            this.yearArray.unshift(this.yearArray[0] - 1);
+            this.yearArray.unshift(Number(this.yearArray[0]) - 1);
             if (this.yearArray[0] < 1) {
                 this.yearArray[0] = '';
             }
@@ -96,7 +61,7 @@ export class YearSelect extends DateSelect {
 
     redrawYearSelect() {
         for (let i = 0; i < 5; i += 1) {
-            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = this.yearArray[i];
+            this.optionWrapper.getElementsByClassName('option')[i].innerHTML = String(this.yearArray[i]);
         }
     }
 
@@ -119,26 +84,22 @@ export class YearSelect extends DateSelect {
     }
 
     returnSelectedYear() {
-        return this.yearArray[2];
+        return Number(this.yearArray[2]);
     }
 }
 
 export class MonthSelect extends DateSelect {
-    constructor(targetLocaleArray) {
+    selectedLocaleArray = [];
+    monthArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+    constructor() {
         super();
         this.dateSelectWrapper.className = 'select-wrapper month-select';
-
-        this.monthArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-        this.selectedLocaleArray = targetLocaleArray;
-
-        this.monthStringArray = this.returnMonthStringArray(this.monthArray);
-
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
             const option = document.createElement('div');
             option.className = 'option';
-            option.innerHTML = this.monthStringArray[i];
+            option.innerHTML = "s";
 
             this.optionWrapper.appendChild(option);
         }
@@ -146,35 +107,39 @@ export class MonthSelect extends DateSelect {
         /* downClick Function */
         this.toggleDown.addEventListener('click', () => {
             // update array order
-            this.monthArray.push(this.monthArray.shift());
+            this.monthArray.push(Number(this.monthArray.shift()));
             this.redrawMonthSelect();
         });
 
         /* upClick Function */
         this.toggleUp.addEventListener('click', () => {
             // update array order
-            this.monthArray.unshift(this.monthArray.pop());
+            this.monthArray.unshift(Number(this.monthArray.pop()));
             this.redrawMonthSelect();
         });
     }
 
+    setLocalLabels(localeLabels) {
+        this.selectedLocaleArray = localeLabels;
+    }
+
     redrawMonthSelect() {
-        const monthStringArray = this.returnMonthStringArray(this.monthArray);
+        const monthStringArray = this.returnMonthStringArray();
 
         for (let i = 0; i < 5; i += 1) {
             this.optionWrapper.getElementsByClassName('option')[i].innerHTML = monthStringArray[i];
         }
     }
 
-    returnMonthStringArray(monthArray) {
+    returnMonthStringArray(targetMonthIndex = null) {
         const monthStringArray = [];
         const localeArray = this.selectedLocaleArray;
 
-        if (!Array.isArray(monthArray)) {
-            return this.selectedLocaleArray[monthArray];
+        if (targetMonthIndex || targetMonthIndex === 0) {
+            return this.selectedLocaleArray[targetMonthIndex];
         }
 
-        monthArray.forEach((index) => {
+        this.monthArray.forEach((index) => {
             monthStringArray.push(localeArray[index].substring(0, 3));
         });
 
@@ -185,11 +150,43 @@ export class MonthSelect extends DateSelect {
         if (value !== this.monthArray[2]) {
             this.monthArray = this.rotate(
                 this.monthArray,
-                this.calculateDateOffset(this.monthArray, value),
+                this.calculateDateOffset(value),
             );
 
-                this.redrawMonthSelect();
+            this.redrawMonthSelect();
         }
+    }
+
+    calculateDateOffset(targetDate) {
+        const dateArrayLength = this.monthArray.length;
+        let calculatedDateOffset = 0;
+
+        switch (true) {
+            case (targetDate < this.monthArray[2]):
+                calculatedDateOffset = (dateArrayLength - this.monthArray[2]) + targetDate;
+                break;
+            case (targetDate === this.monthArray[2]):
+                // do nothing because default value fits
+                break;
+            case (targetDate > this.monthArray[2]):
+                calculatedDateOffset = targetDate - this.monthArray[2];
+                break;
+            default:
+                break;
+        }
+
+        return calculatedDateOffset;
+    }
+
+    rotate(array, times) {
+        let timesToRotate = times;
+        while (timesToRotate > 0) {
+            const temp = array.shift();
+            array.push(temp);
+            timesToRotate -= 1;
+        }
+
+        return array;
     }
 
     toggleByMatrix(mode) {
