@@ -1,7 +1,6 @@
 import './configurable-date-input-polyfill.scss';
 import DateInput from './dateInput';
 
-const startTime = performance.now();
 function supportsDateInput() {
     // Return false if the browser does not support input[type="date"].
     const input = document.createElement('input');
@@ -59,6 +58,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // be added to the DOM dynamically.
     document.querySelector('body')?.addEventListener('mousedown', () => addPolyfillPickers());
 });
-
-const endTime = performance.now();
-console.log(`${(endTime + startTime) / 1000}sek`);
