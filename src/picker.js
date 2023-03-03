@@ -1,113 +1,52 @@
 import { YearSelect, MonthSelect } from './dateSelect';
 
 class Picker {
-    date = new Date();
-    isOpen = false;
-    yearSelect = new YearSelect();
-    monthSelect = new MonthSelect();
-    localeLabels = [];
-    firstDayOfWeek = "";
-    targetInputElement = null;
-    daysHead = document.createElement('thead');
-    daysWrapper = document.createElement('tbody');
-    selectWrapper = document.createElement('div');
-    pickerElement = document.createElement('date-input-polyfill');
-    dateHeaderButton = document.createElement('button');
-    dateSelectWrapper = document.createElement('div');
-
     constructor() {
-        this.pickerElement.className = 'date-input-polyfill';
+        this.date = new Date();
+        this.isOpen = false;
+        this.yearSelect = new YearSelect();
+        this.monthSelect = new MonthSelect();
+        this.localeLabels = [];
+        this.firstDayOfWeek = "";
+        this.targetInputElement = null;
+        this.daysHead = document.createElement('thead');
+        this.daysWrapper = document.createElement('tbody');
+
+        this.dateSelectWrapper = document.createElement('div');
         this.dateSelectWrapper.className = 'date-select-dropdown';
+
+        this.selectWrapper = document.createElement('div');
         this.selectWrapper.className = 'select-container';
-        this.dateSelectWrapper.appendChild(this.selectWrapper);
         this.selectWrapper.appendChild(this.monthSelect.returnDateSelectWrapper());
         this.selectWrapper.appendChild(this.yearSelect.returnDateSelectWrapper());
+
+        this.dateSelectWrapper.appendChild(this.selectWrapper);
+
+        this.pickerElement = document.createElement('date-input-polyfill');
+        this.pickerElement.className = 'date-input-polyfill';
 
         // Polyfill Header
         const dateSelectHeader = document.createElement('div');
         dateSelectHeader.className = 'date-select-header';
 
+        this.dateHeaderButton = document.createElement('button');
         this.dateHeaderButton.className = 'date-header-button inactive';
-        this.dateHeaderButton.addEventListener('click', () => {
-            if (this.dateHeaderButton.classList.contains('inactive')) {
-                this.dateHeaderButton.className = 'date-header-button active';
-                this.dateSelectWrapper.style.display = 'block';
-            } else if (this.dateHeaderButton.classList.contains('active')) {
-                this.dateHeaderButton.className = 'date-header-button inactive';
-                this.dateSelectWrapper.style.display = 'none';
-
-                // Refresh dayMatrix here cause performance
-                this.date.setMonth(this.monthSelect.returnSelectedMonth());
-                this.date.setFullYear(this.yearSelect.returnSelectedYear());
-                this.refreshDaysMatrix();
-            }
-        });
+        this.dateHeaderButton.addEventListener('click', () => this.toggleDateHeader());
 
         dateSelectHeader.appendChild(this.dateHeaderButton);
 
-        this.pickerElement.appendChild(dateSelectHeader);
-
         const dayMatrixWrapper = document.createElement('div');
         dayMatrixWrapper.className = 'day-matrix-wrapper';
+
+        this.pickerElement.appendChild(dateSelectHeader);
         this.pickerElement.appendChild(dayMatrixWrapper);
         this.pickerElement.appendChild(this.dateSelectWrapper);
 
+        // Click event to set that day as the date. Uses event delegation.
+        this.daysWrapper.addEventListener('click', (e) => this.clickDayElement(e.target));
+
         // Setup unchanging DOM for days matrix.
         const daysMatrix = document.createElement('table');
-
-        // Click event to set that day as the date.
-        // Uses event delegation.
-        this.daysWrapper.addEventListener('click', (e) => {
-            const targetDay = e.target;
-
-            // Check if targetDay is valid
-            if (targetDay.textContent.length > 2) {
-                return;
-            }
-
-            // Returns if target day has disabled flag
-            if (targetDay.classList.contains("disabled")) {
-                return;
-            }
-
-            const currentSelected = this.daysWrapper.querySelector('[data-selected]');
-            if (currentSelected) {
-                currentSelected.removeAttribute('data-selected');
-            }
-            targetDay.setAttribute('data-selected', '');
-
-            // Checks for next or prev month
-            let jumpMonth = false;
-            if (targetDay.classList.contains('next-month')) {
-                if (this.monthSelect.returnSelectedMonth() === 11) {
-                    this.yearSelect.toggleByInput(this.yearSelect.returnSelectedYear() + 1);
-                }
-
-                this.monthSelect.toggleByMatrix('next');
-
-                jumpMonth = true;
-            } else if (targetDay.classList.contains('prev-month')) {
-                if (this.monthSelect.returnSelectedMonth() === 0) {
-                    this.yearSelect.toggleByInput(this.yearSelect.returnSelectedYear() - 1);
-                }
-
-                this.monthSelect.toggleByMatrix('prev');
-
-                jumpMonth = true;
-            }
-
-            // Updates if jump is detected
-            if (jumpMonth) {
-                this.date = new Date();
-                this.date.setMonth(this.monthSelect.returnSelectedMonth());
-                this.date.setFullYear(this.yearSelect.returnSelectedYear());
-                this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
-            }
-
-            this.date.setDate(parseInt(targetDay.textContent));
-            this.setInput();
-        });
-
         daysMatrix.appendChild(this.daysHead);
         daysMatrix.appendChild(this.daysWrapper);
         dayMatrixWrapper.appendChild(daysMatrix);
@@ -131,13 +70,77 @@ class Picker {
         }
     }
 
+    toggleDateHeader() {
+        if (this.dateHeaderButton.classList.contains('inactive')) {
+            this.dateHeaderButton.className = 'date-header-button active';
+            this.dateSelectWrapper.style.display = 'block';
+        } else if (this.dateHeaderButton.classList.contains('active')) {
+            this.dateHeaderButton.className = 'date-header-button inactive';
+            this.dateSelectWrapper.style.display = 'none';
+
+            // Refresh dayMatrix here cause performance
+            this.date.setMonth(this.monthSelect.returnSelectedMonth());
+            this.date.setFullYear(this.yearSelect.returnSelectedYear());
+            this.refreshDaysMatrix();
+        }
+    }
+
+    clickDayElement(targetDay) {
+        // Check if targetDay is valid
+        if (targetDay.textContent.length > 2) {
+            return;
+        }
+
+        // Returns if target day has disabled flag
+        if (targetDay.classList.contains("disabled")) {
+            return;
+        }
+
+        const currentSelected = this.daysWrapper.querySelector('[data-selected]');
+        if (currentSelected) {
+            currentSelected.removeAttribute('data-selected');
+        }
+        targetDay.setAttribute('data-selected', '');
+
+        // Checks for next or prev month
+        let jumpMonth = false;
+        if (targetDay.classList.contains('next-month')) {
+            if (this.monthSelect.returnSelectedMonth() === 11) {
+                this.yearSelect.toggleByInput(this.yearSelect.returnSelectedYear() + 1);
+            }
+
+            this.monthSelect.toggleByMatrix('next');
+
+            jumpMonth = true;
+        } else if (targetDay.classList.contains('prev-month')) {
+            if (this.monthSelect.returnSelectedMonth() === 0) {
+                this.yearSelect.toggleByInput(this.yearSelect.returnSelectedYear() - 1);
+            }
+
+            this.monthSelect.toggleByMatrix('prev');
+
+            jumpMonth = true;
+        }
+
+        // Updates if jump is detected
+        if (jumpMonth) {
+            this.date = new Date();
+            this.date.setMonth(this.monthSelect.returnSelectedMonth());
+            this.date.setFullYear(this.yearSelect.returnSelectedYear());
+            this.dateHeaderButton.innerHTML = `${this.monthSelect.returnSelectedMonthAsLabel()} ${this.yearSelect.returnSelectedYear()}`;
+        }
+
+        this.date.setDate(parseInt(targetDay.textContent));
+        this.setInput();
+    }
+
     // Position picker below element. Align to element's right edge.
     positionPicker(element) {
         const rect = element.getBoundingClientRect();
         this.pickerElement.style.top = `${rect.top + rect.height
-        + (document.documentElement.scrollTop || document.body.scrollTop)
-        + 3
-        }px`;
+            + (document.documentElement.scrollTop || document.body.scrollTop)
+            + 3
+            }px`;
 
         const contRect = this.pickerElement.getBoundingClientRect();
         const width = contRect.width ? contRect.width : 280;
@@ -151,8 +154,8 @@ class Picker {
         }
 
         this.pickerElement.style.left = `${base
-        + (document.documentElement.scrollLeft || document.body.scrollLeft)
-        }px`;
+            + (document.documentElement.scrollLeft || document.body.scrollLeft)
+            }px`;
         this.show();
     }
 
@@ -259,7 +262,7 @@ class Picker {
 
     createMatrixHeader() {
         if (this.localeLabels === this.targetInputElement.localeLabels
-        && this.firstDayOfWeek === this.targetInputElement.firstDayOfWeek) {
+            && this.firstDayOfWeek === this.targetInputElement.firstDayOfWeek) {
             return false;
         }
 
