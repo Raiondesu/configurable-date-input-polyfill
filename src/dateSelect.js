@@ -1,11 +1,10 @@
 export class DateSelect {
-    date = new Date();
-    toggleUp = document.createElement('button');
-    toggleDown = document.createElement('button');
-    optionWrapper = document.createElement('div');
-    dateSelectWrapper = document.createElement('div');
-
     constructor() {
+        this.date = new Date();
+        this.toggleUp = document.createElement('button');
+        this.toggleDown = document.createElement('button');
+        this.optionWrapper = document.createElement('div');
+        this.dateSelectWrapper = document.createElement('div');
         this.toggleUp.className = 'control up';
         this.toggleDown.className = 'control down';
         this.optionWrapper.className = 'option-wrapper';
@@ -22,10 +21,9 @@ export class DateSelect {
 }
 
 export class YearSelect extends DateSelect {
-    yearArray = [];
-
     constructor() {
         super();
+        this.yearArray = [];
         this.dateSelectWrapper.className = 'select-wrapper year-select';
 
         /* start Function */
@@ -89,11 +87,10 @@ export class YearSelect extends DateSelect {
 }
 
 export class MonthSelect extends DateSelect {
-    selectedLocaleArray = [];
-    monthArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
     constructor() {
         super();
+        this.selectedLocaleArray = [];
+        this.monthArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         this.dateSelectWrapper.className = 'select-wrapper month-select';
         /* start Function */
         for (let i = 0; i < 5; i += 1) {
