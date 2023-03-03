@@ -1,5 +1,17 @@
 import './configurable-date-input-polyfill.scss';
-import DateInput from './dateInput';
+import {
+    showPicker,
+    getDateRange,
+    setupKeyEvents,
+    getLocaleLabels,
+    returnDateFormat,
+    returnSelectedLocale,
+    setupValueProperties,
+    returnSelectedMinDate,
+    returnSelectedMaxDate,
+    createMutationObserver,
+    returnSelectedFirstDayOfWeek,
+} from './inputUtilities';
 
 function supportsDateInput() {
     // Return false if the browser does not support input[type="date"].
@@ -14,33 +26,33 @@ function supportsDateInput() {
 
 function addPickerToInputs(dateInputs) {
     for (let i = 0; i < dateInputs.length; i += 1) {
+        const htmlElement = dateInputs[i];
+        const locale = returnSelectedLocale(htmlElement);
+        const dateFormat = returnDateFormat(htmlElement);
+        const minDateAttribute = returnSelectedMinDate(htmlElement);
+        const maxDateAttribute = returnSelectedMaxDate(htmlElement);
+        const dateRange = getDateRange(minDateAttribute, maxDateAttribute);
+        const localeLabels = getLocaleLabels(locale);
+        const firstDayOfWeek = returnSelectedFirstDayOfWeek(htmlElement);
+
         const dateInput = {
-            htmlElement: null,
-            firstDayOfWeek: null,
-            dateFormat: null,
-            dateRange: null,
-            locale: null,
-            localeLabels: null,
-            minDateAttribute: null,
-            maxDateAttribute: null,
+            htmlElement,
+            firstDayOfWeek,
+            dateFormat,
+            dateRange,
+            locale,
+            localeLabels,
+            minDateAttribute,
+            maxDateAttribute,
         };
 
-        dateInput.htmlElement = dateInputs[i];
-        dateInput.htmlElement.setAttribute('data-has-picker', '');
-        dateInput.htmlElement.addEventListener('focus', () => DateInput.showPicker(dateInput));
-        dateInput.htmlElement.addEventListener('mouseup', () => DateInput.showPicker(dateInput));
+        htmlElement.setAttribute('data-has-picker', '');
+        htmlElement.addEventListener('focus', () => showPicker(dateInput));
+        htmlElement.addEventListener('mouseup', () => showPicker(dateInput));
 
-        dateInput.locale = DateInput.returnSelectedLocale(dateInput.htmlElement);
-        dateInput.dateFormat = DateInput.returnDateFormat(dateInput.htmlElement);
-        dateInput.minDateAttribute = DateInput.returnSelectedMinDate(dateInput.htmlElement);
-        dateInput.maxDateAttribute = DateInput.returnSelectedMaxDate(dateInput.htmlElement);
-        dateInput.dateRange = DateInput.getDateRange(dateInput.minDateAttribute, dateInput.maxDateAttribute);
-        dateInput.localeLabels = DateInput.getLocaleLabels(dateInput.locale);
-        dateInput.firstDayOfWeek = DateInput.returnSelectedFirstDayOfWeek(dateInput.htmlElement);
-
-        DateInput.createMutationObserver(dateInput);
-        DateInput.setupValueProperties(dateInput);
-        DateInput.setupKeyEvents(dateInput);
+        createMutationObserver(dateInput);
+        setupValueProperties(dateInput);
+        setupKeyEvents(dateInput);
     }
 }
 
@@ -54,7 +66,6 @@ function addPolyfillPickers() {
 
 document.addEventListener('DOMContentLoaded', () => {
     addPolyfillPickers();
-    // This is also on mousedown event, so it will capture new inputs that might
-    // be added to the DOM dynamically.
+    // This is also on mousedown event, so it will capture new inputs that might be added to the DOM dynamically.
     document.querySelector('body')?.addEventListener('mousedown', () => addPolyfillPickers());
 });
