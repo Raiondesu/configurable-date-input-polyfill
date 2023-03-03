@@ -10,6 +10,7 @@ import {
     returnSelectedMinDate,
     returnSelectedMaxDate,
     createMutationObserver,
+    returnForcePolyfillFlag,
     returnSelectedFirstDayOfWeek,
 } from './inputUtilities';
 
@@ -34,6 +35,9 @@ function addPickerToInputs(dateInputs) {
         const dateRange = getDateRange(minDateAttribute, maxDateAttribute);
         const localeLabels = getLocaleLabels(locale);
         const firstDayOfWeek = returnSelectedFirstDayOfWeek(htmlElement);
+        const forcePolyfill = returnForcePolyfillFlag(htmlElement);
+
+        if (forcePolyfill) htmlElement.setAttribute('type', 'text');
 
         const dateInput = {
             htmlElement,
@@ -58,7 +62,8 @@ function addPickerToInputs(dateInputs) {
 
 function addPolyfillPickers() {
     addPickerToInputs(document.querySelectorAll('input[type="text"].date-polyfill:not([data-has-picker])'));
-    // Check if type="date" is supported. feature disabled!
+    addPickerToInputs(document.querySelectorAll('input[type="date"][force-date-polyfill]:not([data-has-picker]'));
+    // Check if type="date" is supported.
     if (!supportsDateInput()) {
         addPickerToInputs(document.querySelectorAll('input[type="date"]:not([data-has-picker])'));
     }

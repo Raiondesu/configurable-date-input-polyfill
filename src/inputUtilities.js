@@ -174,6 +174,10 @@ export function returnSelectedMaxDate(htmlElement) {
         || htmlElement.getAttribute('data-max') || '';
 }
 
+export function returnForcePolyfillFlag(htmlElement) {
+    return !!htmlElement.getAttribute('force-date-polyfill');
+}
+
 export function getDateRange(minAttribute, maxAttribute) {
     const defaultMinDate = new Date("1800");
     const defaultMaxDate = new Date("3000");

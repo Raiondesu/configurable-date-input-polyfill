@@ -37,6 +37,7 @@ can set the calendar matrix format to any standard. Value of this attribute can 
 They behave as getters and setters.
 * Change detection of input attributes via [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) 
 always keeps the datepicker up to date.
+* Ensure a consistent look and feel for date inputs across all browsers by forcing the use of the polyfill.
 
 
 ## Install
@@ -53,7 +54,7 @@ include it anywhere in your HTML.
 ```html
 <script src="./dist/configurable-date-input-polyfill.dist.js"></script>
 
-<script src="node_modules/configurable-date-input-polyfill/dist/onfigurable-date-input-polyfill.dist.js"></script>
+<script src="node_modules/configurable-date-input-polyfill/dist/configurable-date-input-polyfill.dist.js"></script>
 ```
 
 
@@ -105,6 +106,21 @@ include it anywhere in your HTML.
 
 <!--egypt-->
 <input type="date" data-first-day="sa" />
+```
+
+## Force Polyfill
+* Ensure a consistent date input experience across all browsers by forcing the use of the polyfill.
+  To do this you have to add `force-date-polyfill="true"` to an specific date input element.
+
+```html
+<!--default uses browser based date input-->
+<input type="date" />
+
+<!--forces use of date input polyfill-->
+<input type="date" force-date-polyfill="true" />
+
+<!--forcing the polyfill in configured date input-->
+<input type="date" class="date-polyfill" data-min="2015-02-15" data-max="2030-01-01" force-date-polyfill="true" />
 ```
 
 ## Browser support
