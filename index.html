@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Polyfill Datepicker Demo</title>
     <meta name="description" content="Polyfill Demo">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-	<link rel="shortcut icon" type="image/x-icon" href="favicons/favicon.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <style>
@@ -96,7 +97,8 @@
 
 <body class="container-fluid">
     <h1>Configurable Date-Input-Polyfill DEMO</h1>
-    <h2>The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of configuration options for all needs.</h2>
+    <h2>The last date-input polyfill you will ever need. A fancy and lightweight date input with a high number of
+        configuration options for all needs.</h2>
     <div class="row">
         <div class="col col-12 col-md-6 col-xl-4">
             <div class="example-container">
@@ -158,7 +160,8 @@
                         </span>
                     </div>
                     <div class="col-md-12 col-xl-5 example-input">
-                        <input title="with monday as first week day" type="date" data-first-day="mo" force-date-polyfill="true"/>
+                        <input title="with monday as first week day" type="date" data-first-day="mo"
+                            force-date-polyfill="true" />
                     </div>
                 </div>
                 <div class="row example-row">
@@ -169,7 +172,7 @@
                     </div>
                     <div class="col-md-12 col-xl-5 example-input">
                         <input title="with configured min & max value" type="date" data-min="2008-03-01"
-                        data-max="2015-02-01" />
+                            data-max="2015-02-01" />
                     </div>
                 </div>
                 <span>
@@ -251,8 +254,8 @@
                         </span>
                     </div>
                     <div class="col-md-12 col-xl-5 example-input">
-                        <input title="with configured min & max value" class="date-polyfill" type="text" data-min="2008-03-01"
-                            data-max="2015-02-01" />
+                        <input title="with configured min & max value" class="date-polyfill" type="text"
+                            data-min="2008-03-01" data-max="2015-02-01" />
                     </div>
                 </div>
                 <span>
@@ -263,22 +266,38 @@
 
         <div class="col col-12 col-md-12 col-xl-4">
             <div class="example-container">
-                <h2>Fancy dynamic example</h2>
+                <h2>Fancy dynamic examples</h2>
                 <div class="row example-row">
                     <div class="col-md-12 col-xl-7">
                         <span>
-                            Dynamically created Input:
+                            Dynamically created date input:
                         </span>
                     </div>
-                    <div class="col-md-12 col-xl-4 example-input" id="dynamic-example">
-                        <script>
-                            setTimeout(function () {
-                                var input = document.createElement("input");
-                                input.setAttribute("type", "date");
-                                document.getElementById("dynamic-example").appendChild(input);
-                            }, 2000);
-                        </script>
+                    <div class="col-md-12 col-xl-4 example-input" id="dynamic-example"></div>
+                </div>
+                <div class="row example-row">
+                    <div class="col-md-12 col-xl-7">
+                        <span>
+                            Dynamic and forcing polyfill:
+                        </span>
                     </div>
+                    <div class="col-md-12 col-xl-4 example-input" id="dynamic-example-forcing"></div>
+                </div>
+                <div class="row example-row">
+                    <div class="col-md-12 col-xl-7">
+                        <span>
+                            Dynamic with a german configuration:
+                        </span>
+                    </div>
+                    <div class="col-md-12 col-xl-4 example-input" id="dynamic-example-german"></div>
+                </div>
+                <div class="row example-row">
+                    <div class="col-md-12 col-xl-7">
+                        <span>
+                            Dynamic with min and max:
+                        </span>
+                    </div>
+                    <div class="col-md-12 col-xl-4 example-input" id="dynamic-example-min-max"></div>
                 </div>
                 <span>
                     ...
@@ -317,6 +336,34 @@
             </button>
         </div>
     </div>
+    <script>
+        setTimeout(function () {
+            var input = document.createElement("input");
+            input.setAttribute("type", "date");
+            document.getElementById("dynamic-example").appendChild(input);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "date");
+            input.setAttribute("force-date-polyfill", "true");
+            document.getElementById("dynamic-example-forcing").appendChild(input);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("lang", "de");
+            input.setAttribute("class", "date-polyfill");
+            input.setAttribute("date-format", "dd.mm.yyyy");
+            input.setAttribute("data-first-day", "mo");
+            input.setAttribute("force-date-polyfill", "true");
+            document.getElementById("dynamic-example-german").appendChild(input);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "date");
+            input.setAttribute("data-min", "2008-03-01");
+            input.setAttribute("data-max", "2015-02-01");
+            document.getElementById("dynamic-example-min-max").appendChild(input);
+        }, 2000);
+    </script>
     <script src="./dist/configurable-date-input-polyfill.dist.js"></script>
 </body>
+
 </html>
