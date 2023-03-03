@@ -35,7 +35,7 @@ export function setupValueProperties(dateInputElement) {
                     const valueAsDate = new Date(year, month - 1, day, 0, 0, 0, 0);
 
                     // return null in case of invalid date
-                    if (Number.isNaN(valueAsDate.getDate())) {
+                    if (isNaN(valueAsDate.getDate())) {
                         return null;
                     }
 
