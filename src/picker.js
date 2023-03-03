@@ -216,6 +216,7 @@ class Picker {
 
         // create month select by given language
         this.monthSelect.setLocalLabels(this.localeLabels.months);
+        this.monthSelect.redrawMonthSelect();
 
         // create new DateRange Object
         const minRange = new Date(this.targetInputElement.dateRange[0].getTime());
