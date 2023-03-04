@@ -72,15 +72,13 @@ export function setupValueProperties(dateInputElement) {
     );
 }
 
-export function setupKeyEvents(newElement) {
-    const inputElement = newElement;
-    const minDate = inputElement.dateRange[0];
-    const maxDate = inputElement.dateRange[1];
-
+export function setupKeyEvents(dateInputObject) {
+    const minDate = dateInputObject.dateRange[0];
+    const maxDate = dateInputObject.dateRange[1];
+    const dateInputHtmlElement = dateInputObject.htmlElement;
     // Update the picker if the date changed manually in the input.
-    inputElement.htmlElement.addEventListener('keydown', (e) => {
+    dateInputHtmlElement.addEventListener('keydown', (e) => {
         let date = new Date();
-
         switch (e.keyCode) {
             case 9: // hide on tab
             case 27:
@@ -89,45 +87,45 @@ export function setupKeyEvents(newElement) {
                 break;
             case 37:
                 // arrow left
-                if (inputElement.valueAsDate) {
+                if (dateInputHtmlElement.valueAsDate) {
                     date = Picker.returnCurrentDate();
                     date.setDate(date.getDate() - 1);
 
                     if (date >= minDate) {
-                        inputElement.valueAsDate = date;
+                        dateInputHtmlElement.valueAsDate = date;
                     }
                 }
                 break;
             case 38:
                 // arrow up
-                if (inputElement.valueAsDate) {
+                if (dateInputHtmlElement.valueAsDate) {
                     date = Picker.returnCurrentDate();
                     date.setDate(date.getDate() - 7);
 
                     if (date >= minDate) {
-                        inputElement.valueAsDate = date;
+                        dateInputHtmlElement.valueAsDate = date;
                     }
                 }
                 break;
             case 39:
                 // arrow right
-                if (inputElement.valueAsDate) {
+                if (dateInputHtmlElement.valueAsDate) {
                     date = Picker.returnCurrentDate();
                     date.setDate(date.getDate() + 1);
 
                     if (date <= maxDate) {
-                        inputElement.valueAsDate = date;
+                        dateInputHtmlElement.valueAsDate = date;
                     }
                 }
                 break;
             case 40:
                 // arrow down
-                if (inputElement.valueAsDate) {
+                if (dateInputHtmlElement.valueAsDate) {
                     date = Picker.returnCurrentDate();
                     date.setDate(date.getDate() + 7);
 
                     if (date <= maxDate) {
-                        inputElement.valueAsDate = date;
+                        dateInputHtmlElement.valueAsDate = date;
                     }
                 }
                 break;
@@ -139,7 +137,7 @@ export function setupKeyEvents(newElement) {
         Picker.syncPickerWithInput();
     });
 
-    inputElement.htmlElement.addEventListener('keyup', () => {
+    dateInputHtmlElement.addEventListener('keyup', () => {
         Picker.syncPickerWithInput();
     });
 }
