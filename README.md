@@ -110,17 +110,17 @@ include it anywhere in your HTML.
 
 ## Force Polyfill
 * Ensure a consistent date input experience across all browsers by forcing the use of the polyfill.
-  To do this you have to add `force-date-polyfill="true"` to an specific date input element.
+  To do this you have to add `data-force-polyfill="true"` to an specific date input element.
 
 ```html
 <!--default uses browser based date input-->
 <input type="date" />
 
 <!--forces use of date input polyfill-->
-<input type="date" force-date-polyfill="true" />
+<input type="date" data-force-polyfill="true" />
 
 <!--forcing the polyfill in configured date input-->
-<input type="date" class="date-polyfill" data-min="2015-02-15" data-max="2030-01-01" force-date-polyfill="true" />
+<input type="date" class="date-polyfill" data-min="2015-02-15" data-max="2030-01-01" data-force-polyfill="true" />
 ```
 
 ## Browser support

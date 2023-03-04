@@ -47,6 +47,10 @@
             padding: 30px;
         }
 
+        .example-container p {
+            text-align: center;
+        }
+
         .col {
             margin-bottom: 30px;
         }
@@ -140,7 +144,7 @@
                         </span>
                     </div>
                     <div class="col-md-12 col-xl-5 example-input">
-                        <input title="with configured date format" type="date" force-date-polyfill="true" />
+                        <input title="with configured date format" type="date" data-force-polyfill="true" />
                     </div>
                 </div>
                 <div class="row example-row">
@@ -161,7 +165,7 @@
                     </div>
                     <div class="col-md-12 col-xl-5 example-input">
                         <input title="with monday as first week day" type="date" data-first-day="mo"
-                            force-date-polyfill="true" />
+                            data-force-polyfill="true" />
                     </div>
                 </div>
                 <div class="row example-row">
@@ -267,6 +271,7 @@
         <div class="col col-12 col-md-12 col-xl-4">
             <div class="example-container">
                 <h2>Fancy dynamic examples</h2>
+                <p>(created after 2 sek)</p>
                 <div class="row example-row">
                     <div class="col-md-12 col-xl-7">
                         <span>
@@ -344,7 +349,7 @@
 
             var input = document.createElement("input");
             input.setAttribute("type", "date");
-            input.setAttribute("force-date-polyfill", "true");
+            input.setAttribute("data-force-polyfill", "true");
             document.getElementById("dynamic-example-forcing").appendChild(input);
 
             var input = document.createElement("input");
@@ -353,7 +358,7 @@
             input.setAttribute("class", "date-polyfill");
             input.setAttribute("date-format", "dd.mm.yyyy");
             input.setAttribute("data-first-day", "mo");
-            input.setAttribute("force-date-polyfill", "true");
+            input.setAttribute("data-force-polyfill", "true");
             document.getElementById("dynamic-example-german").appendChild(input);
 
             var input = document.createElement("input");

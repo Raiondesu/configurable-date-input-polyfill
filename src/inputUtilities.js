@@ -175,7 +175,7 @@ export function returnSelectedMaxDate(htmlElement) {
 }
 
 export function returnForcePolyfillFlag(htmlElement) {
-    return !!htmlElement.getAttribute('force-date-polyfill');
+    return !!htmlElement.getAttribute('data-force-polyfill');
 }
 
 export function getDateRange(minAttribute, maxAttribute) {
