@@ -57,14 +57,13 @@ class Picker {
 
     removeClickOut(e) {
         if (this.isOpen) {
-            const { target } = e;
             let el = e.target;
             let isPicker = el === this.pickerElement || el === this.targetInputElement;
             while (!isPicker && el !== null) {
                 el = el.parentNode;
                 isPicker = el === this.pickerElement;
             }
-            if ((target.getAttribute('type') !== 'date' && !isPicker) || !isPicker) {
+            if (!isPicker) {
                 this.hide();
             }
         }
