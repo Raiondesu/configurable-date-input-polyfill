@@ -191,8 +191,8 @@ class Picker {
         this.pickerElement.setAttribute('data-open', String(this.isOpen));
         // Close the picker when clicking outside a date input or picker.
         setTimeout(() => {
-            document.addEventListener('mousedown', (e) => this.removeClickOut(e), { once: true });
-            document.addEventListener('touchstart', (e) => this.removeClickOut(e), { once: true });
+            document.addEventListener('mousedown', (e) => this.removeClickOut(e));
+            document.addEventListener('touchstart', (e) => this.removeClickOut(e));
         }, 500);
 
         // when used in a single-page app  or otherwise,
