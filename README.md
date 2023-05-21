@@ -62,9 +62,8 @@ include it anywhere in your HTML.
 import supportsDateInput from 'configurable-date-input-polyfill/src';
 
 if (!supportsDateInput()) {
-  const { default: addPickerToInputs } = await import('configurable-date-input-polyfill/src/add-picker');
-
-  addPickerToInputs([yourInputElement]);
+  import('configurable-date-input-polyfill/src/add-picker')
+    .then(({ default: addPickerToInputs }) => addPickerToInputs([yourInputElement]));
 }
 ```
 
